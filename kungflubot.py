@@ -25,13 +25,13 @@ menu = types.ReplyKeyboardMarkup()
 menu.add('Info Covid','Info Ayuda','UVCKill')
 
 info_menu = types.ReplyKeyboardMarkup()
-info_menu.add('Bolivia','Desagregados')
+info_menu.add('Bolivia','Desagregados','Atras')
 
 ayuda_menu = types.ReplyKeyboardMarkup()
 ayuda_menu.add('ProfesionalesDisponibles','Contacto')
 
 uvc_menu = types.ReplyKeyboardMarkup()
-uvc_menu.add('Información Científica','Solicitar contacto')
+uvc_menu.add('Información','Solicitar contacto')
 
 
 
@@ -117,7 +117,7 @@ def main_menu(m):
     cid = m.chat.id
     text = m.text
     if text == "Info Covid":  # RPINFO
-        bot.send_message(cid, "Se muestra información del reporte oficial", reply_markup=info_menu)
+        bot.send_message(cid, "Se muestra información Covid19 del reporte oficial", reply_markup=info_menu)
         userStep[cid] = 1
     elif text == "Info Ayuda":  # CAMARA
         bot.send_message(cid, "Se muestra información de Respuesta ciudadana, sobre profesionales disponibles", reply_markup=ayuda_menu)
@@ -141,11 +141,63 @@ def info_opt(m):
         cid = m.chat.id
         txt = m.text
         if txt == "Bolivia":  # TEMP
-            bot.send_message(cid, "Generando grafica")
-            print(color.BLUE + "gnu plot covidbol" + color.ENDC)
-            os.system('gnuplot prueba.gnp')
+            bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('bolivia.png'))))
             bot.send_chat_action(cid, 'upload_photo')
-	    userStep[cid] = 0
-            bot.send_photo(cid, open("covidbol.png", 'rb'))
-	    bot.send_message(cid,'La gráfica es actualizada día a día',reply_markup=menu)
-            print(color.GREEN + "covidbol enviada" + color.ENDC)
+	    	userStep[cid] = 1
+            bot.send_photo(cid, open("bolivia.png", 'rb'))
+	    	bot.send_message(cid,'La gráfica es actualizada día a día')
+            print(color.GREEN + "bolivia enviada" + color.ENDC)
+
+        elif txt == 'Desagregados' 
+        	bot.send_message(cid, "Se muestra la evolución temporal")
+        	bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('desagregado.png'))))
+            bot.send_chat_action(cid, 'upload_photo')
+	    	userStep[cid] = 1
+            bot.send_photo(cid, open("desagregado.png", 'rb'))
+	    	bot.send_message(cid,'La gráfica es actualizada día a día')
+            print(color.GREEN + "desagregada enviada" + color.ENDC)
+
+
+        elif txt == "Atras":  # HD
+            userStep[cid] = 0
+            bot.send_message(cid, "Menu Principal:", reply_markup=menu)
+        else:
+            command_text(m)
+
+
+
+
+@bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 2)
+def cam_opt(m):
+        cid = m.chat.id
+        text = m.text
+        if text == "ProfesionalesDisponibles":  # FOTO
+                
+            bot.send_message(cid, "En el siguiente enlace obtendra información\n")
+            bot.send_message(cid, "https://bolivia.respuestaciudadana.org/hermanos-1.html#!")
+            print(color.BLUE + " Enlace ubicacion" + color.ENDC)
+            userStep[cid]=0
+        else text == 'Contacto'
+        	bot.send_message(cid, "Puede comunicarse con los siguientes números ante cualquier duda\n")
+            userStep[cid]=0
+            bot.send_message(cid, 800 10 11 04)
+            bot.send_message(cid, 800 10 11 06,reply_markup=main_menu)
+
+
+@bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 3)
+
+def uvc_kill(m):
+	cid = m.chat.id
+	txt = m.text
+	if text == 'Información'
+		bot.send_message(cid, "La luz UVC, es muy eficaz para la esterilización de superficies\n")
+        bot.send_chat_action(cid,'upload_video')
+        bot.send_video(cid, open('coviduvc.mp4'),'rb')
+        lol = 'Encontrara información más detallada en el siguiente link'
+        lol += 'https://n9.cl/yoxa'
+        lol += 'https://n9.cl/8a38' 
+        bot.send_message(cid,lol)
+        userStep[cid]=0
+	else text == 'Solicitar contacto'
+		bot.send_message(cid, "Obtenga asesoramiento experto")
+		bot.send_message(cid, "https://t.me/radiontech",reply_markup=main_menu)
