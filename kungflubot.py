@@ -108,7 +108,7 @@ def command_exec(m):
         bot.send_message(cid, "Resultado: " + result)
     else:
         bot.send_message(cid, "PERMISO DENEGADO, solo Juan 'The Creator' puede acceder")
-        print(color.RED + " ¡PERMISO DENEGADO! " + color.ENDC)
+       # print(color.RED + " ¡PERMISO DENEGADO! " + color.ENDC)
 
 
 # MENU PRINCIPAL
