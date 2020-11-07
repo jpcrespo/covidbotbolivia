@@ -201,3 +201,19 @@ def uvc_kill(m):
 	else text == 'Solicitar contacto'
 		bot.send_message(cid, "Obtenga asesoramiento experto")
 		bot.send_message(cid, "https://t.me/radiontech",reply_markup=main_menu)
+
+
+
+# FILTRAR MENSAJES
+@bot.message_handler(func=lambda message: True, content_types=['text'])
+def command_text(m):
+    cid = m.chat.id
+    if (m.text.lower() in ['hola', 'hi', 'buenas', 'buenos dias']):
+        bot.send_message(cid, 'Muy buenas, ' + str(m.from_user.first_name) + '. Me alegra verte de nuevo.', parse_mode="Markdown")
+    elif (m.text.lower() in ['adios', 'aios', 'adeu', 'ciao']):
+        bot.send_message(cid, 'Hasta luego, ' + str(m.from_user.first_name) + '. Te echaré de menos.', parse_mode="Markdown")
+
+
+print 'Corriendo...'
+bot.polling(none_stop=True)
+
