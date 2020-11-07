@@ -88,7 +88,7 @@ def command_start(m):
 @bot.message_handler(commands=['ayuda'])
 def command_help(m):
     cid = m.chat.id
-    help_text = "Hola, este bot esta diseñado para mostrar los datos covid19 en Bolivia\n"
+    help_text = "Hola, este bot esta mostrara los datos covid19 en Bolivia\n"
     help_text += "Comandos disponibles: \n"
     for key in commands:
         help_text += "/" + key + ": "
