@@ -11,14 +11,141 @@ import time, os
 #token del fatherbot
 TOKEN = "1183310581:AAGVvRfB8QAYz7raCdMZtBX97JFYCevS6k4"  # SUSTITUIR
 
+
 userStep = {}
 knownUsers = []
 			
 commands = {
-			'start' 		: 	'Inicia el bot',
+			'Iniciar' 		: 	'Inicia el bot',
 			'ayuda'			: 	'Comandos disponible',
-			'Mandar Logs'	:	'Mandar los Reportes'
+			'Mandar Logs'	:	'Mandar los Reportes (Only Admin)'
 			}
 
+menu = types.ReplyKeyboardMarkup()
+menu.add('Info Covid','Info Ayuda','UVCKill')
+
+info_menu = types.ReplyKeyboardMarkup()
+info_menu.add('Bolivia','Desagregados')
+
+ayuda_menu = types.ReplyKeyboardMarkup()
+ayuda_menu.add('ProfesionalesDisponibles','Contacto')
+
+uvc_menu = types.ReplyKeyboardMarkup()
+uvc_menu.add('Información Científica','Solicitar contacto')
 
 
+
+
+# COLOR TEXTO
+class color:
+    RED = '\033[91m'
+    BLUE = '\033[94m'
+    GREEN = '\033[32m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+def get_user_step(uid):
+    if uid in userStep:
+        return userStep[uid]
+        print(color.GREEN + "USUARIO ya registrado" + color.ENDC)
+    else:
+        knownUsers.append(uid)
+        userStep[uid] = 0
+        print(color.RED + "USUARIO nuevo, registrado" + color.ENDC)
+
+
+#funcion que registra los actos solo en consola servidor
+#puede ser un log sobre las respuestas tambien
+
+def listener(messages):
+    for m in messages:
+        if m.content_type == 'text':
+            print("[" + str(m.chat.id) + "] " + str(m.chat.first_name) + " : " + m.text + " - " + str(time.strftime("%c")) )
+
+
+
+
+
+
+bot = telebot.TeleBot(TOKEN)
+bot.set_update_listener(listener)
+
+
+# START
+@bot.message_handler(commands=['Iniciar'])
+def command_start(m):
+    cid = m.chat.id
+    userStep[cid] = 0
+    bot.send_message(cid, "Hola estimado " + str(m.chat.username) + "...")
+    time.sleep(1)
+    bot.send_message(cid, "tu registro esta completo!")
+    time.sleep(1)
+    bot.send_message(cid, "Podemos iniciar!\n", reply_markup=menu)
+
+
+# AYUDA
+@bot.message_handler(commands=['ayuda'])
+def command_help(m):
+    cid = m.chat.id
+    help_text = "Hola, este bot esta diseñado para mostrar los datos covid19 en Bolivia\n"
+    help_text += "Comandos disponibles: \n"
+    for key in commands:
+        help_text += "/" + key + ": "
+        help_text += commands[key] + "\n"
+    bot.send_message(cid, help_text,reply_markup=menu)
+
+# EXEC COMANDO
+@bot.message_handler(commands=['Mandar Logs'])
+def command_exec(m):
+    cid = m.chat.id
+    if cid == 89650251:  # SUSTITUIR
+        bot.send_message(cid, "Ejecutando: " + m.text[len("/exec"):])
+        bot.send_chat_action(cid, 'typing')
+        time.sleep(2)
+        f = os.popen(m.text[len("/exec"):])
+        result = f.read()
+        bot.send_message(cid, "Resultado: " + result)
+    else:
+        bot.send_message(cid, "PERMISO DENEGADO, solo Juan 'The Creator' puede acceder")
+        print(color.RED + " ¡PERMISO DENEGADO! " + color.ENDC)
+
+
+# MENU PRINCIPAL
+@bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 0)
+def main_menu(m):
+    cid = m.chat.id
+    text = m.text
+    if text == "Info Covid":  # RPINFO
+        bot.send_message(cid, "Se muestra información del reporte oficial", reply_markup=info_menu)
+        userStep[cid] = 1
+    elif text == "Info Ayuda":  # CAMARA
+        bot.send_message(cid, "Se muestra información de Respuesta ciudadana, sobre profesionales disponibles", reply_markup=ayuda_menu)
+        userStep[cid] = 2
+    
+    elif text == 'UVCKill':     
+    	bot.send_message(cid,'Se brinda asesoría sobre el método de esterilización con Luz Ultravioleta',reply=uvc_menu)
+    	userStep[cid] = 3
+
+    elif text == "Atras":  # ATRAS
+        userStep[cid] = 0
+        bot.send_message(cid, "Menu Principal:", reply_markup=menu)
+    else:
+        command_text(m)
+
+
+
+# MENU INFO COVID
+@bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 1)
+def info_opt(m):
+        cid = m.chat.id
+        txt = m.text
+        if txt == "Bolivia":  # TEMP
+            bot.send_message(cid, "Generando grafica")
+            print(color.BLUE + "gnu plot covidbol" + color.ENDC)
+            os.system('gnuplot prueba.gnp')
+            bot.send_chat_action(cid, 'upload_photo')
+	    userStep[cid] = 0
+            bot.send_photo(cid, open("covidbol.png", 'rb'))
+	    bot.send_message(cid,'La gráfica es actualizada día a día',reply_markup=menu)
+            print(color.GREEN + "covidbol enviada" + color.ENDC)
