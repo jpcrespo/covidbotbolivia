@@ -31,7 +31,7 @@ ayuda_menu = types.ReplyKeyboardMarkup()
 ayuda_menu.add('ProfesionalesDisponibles','Contacto')
 
 uvc_menu = types.ReplyKeyboardMarkup()
-uvc_menu.add('Información','Solicitar contacto')
+uvc_menu.add('Informacion','Solicitar contacto')
 
 
 
@@ -117,14 +117,14 @@ def main_menu(m):
     cid = m.chat.id
     text = m.text
     if text == "Info Covid":  # RPINFO
-        bot.send_message(cid, "Se muestra información Covid19 del reporte oficial", reply_markup=info_menu)
+        bot.send_message(cid, "Se muestra informacion Covid19 del reporte oficial", reply_markup=info_menu)
         userStep[cid] = 1
     elif text == "Info Ayuda":  # CAMARA
-        bot.send_message(cid, "Se muestra información de Respuesta ciudadana, sobre profesionales disponibles", reply_markup=ayuda_menu)
+        bot.send_message(cid, "Se muestra informacion de Respuesta ciudadana, sobre profesionales disponibles", reply_markup=ayuda_menu)
         userStep[cid] = 2
     
     elif text == 'UVCKill':     
-    	bot.send_message(cid,'Se brinda asesoría sobre el método de esterilización con Luz Ultravioleta',reply=uvc_menu)
+    	bot.send_message(cid,'Se brinda asesoria sobre el metodo de esterilizacion con Luz Ultravioleta',reply=uvc_menu)
     	userStep[cid] = 3
 
     elif text == "Atras":  # ATRAS
@@ -145,7 +145,7 @@ def info_opt(m):
             bot.send_chat_action(cid, 'upload_photo')
 	    	userStep[cid] = 1
             bot.send_photo(cid, open("bolivia.png", 'rb'))
-	    	bot.send_message(cid,'La gráfica es actualizada día a día')
+	    	bot.send_message(cid,'La gráfica es actualizada dia a dia')
             print(color.GREEN + "bolivia enviada" + color.ENDC)
 
         elif txt == 'Desagregados' 
@@ -154,7 +154,7 @@ def info_opt(m):
             bot.send_chat_action(cid, 'upload_photo')
 	    	userStep[cid] = 1
             bot.send_photo(cid, open("desagregado.png", 'rb'))
-	    	bot.send_message(cid,'La gráfica es actualizada día a día')
+	    	bot.send_message(cid,'La gráfica es actualizada dia a dia')
             print(color.GREEN + "desagregada enviada" + color.ENDC)
 
 
@@ -173,12 +173,12 @@ def cam_opt(m):
         text = m.text
         if text == "ProfesionalesDisponibles":  # FOTO
                 
-            bot.send_message(cid, "En el siguiente enlace obtendra información\n")
+            bot.send_message(cid, "En el siguiente enlace obtendra informacion\n")
             bot.send_message(cid, "https://bolivia.respuestaciudadana.org/hermanos-1.html#!")
             print(color.BLUE + " Enlace ubicacion" + color.ENDC)
             userStep[cid]=0
         else text == 'Contacto'
-        	bot.send_message(cid, "Puede comunicarse con los siguientes números ante cualquier duda\n")
+        	bot.send_message(cid, "Puede comunicarse con los siguientes numeros ante cualquier duda\n")
             userStep[cid]=0
             bot.send_message(cid, 800 10 11 04)
             bot.send_message(cid, 800 10 11 06,reply_markup=main_menu)
@@ -189,11 +189,11 @@ def cam_opt(m):
 def uvc_kill(m):
 	cid = m.chat.id
 	txt = m.text
-	if text == 'Información'
-		bot.send_message(cid, "La luz UVC, es muy eficaz para la esterilización de superficies\n")
+	if text == 'Informacion'
+		bot.send_message(cid, "La luz UVC, es muy eficaz para la esterilizacion de superficies\n")
         bot.send_chat_action(cid,'upload_video')
         bot.send_video(cid, open('coviduvc.mp4'),'rb')
-        lol = 'Encontrara información más detallada en el siguiente link'
+        lol = 'Encontrara informacion mas detallada en el siguiente link'
         lol += 'https://n9.cl/yoxa'
         lol += 'https://n9.cl/8a38' 
         bot.send_message(cid,lol)
