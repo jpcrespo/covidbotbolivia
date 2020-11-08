@@ -107,8 +107,8 @@ def command_exec(m):
         result = f.read()
         bot.send_message(cid, "Resultado: " + result)
     else:
-        bot.send_message(cid, "PERMISO DENEGADO, solo Juan 'The Creator' puede acceder")
-       # print(color.RED + " ¡PERMISO DENEGADO! " + color.ENDC)
+        bot.send_message(cid, "PERMISO DENEGADO, solo Juan The Creator puede acceder")
+        print(color.RED + " ¡PERMISO DENEGADO! " + color.ENDC)
 
 
 # MENU PRINCIPAL
@@ -145,7 +145,7 @@ def info_opt(m):
             bot.send_chat_action(cid, 'upload_photo')
 	    	userStep[cid] = 1
             bot.send_photo(cid, open("bolivia.png", 'rb'))
-	    	bot.send_message(cid,'La gráfica es actualizada dia a dia')
+	    	bot.send_message(cid,'La grafica es actualizada dia a dia')
             print(color.GREEN + "bolivia enviada" + color.ENDC)
 
         elif txt == 'Desagregados' 
@@ -154,7 +154,7 @@ def info_opt(m):
             bot.send_chat_action(cid, 'upload_photo')
 	    	userStep[cid] = 1
             bot.send_photo(cid, open("desagregado.png", 'rb'))
-	    	bot.send_message(cid,'La gráfica es actualizada dia a dia')
+	    	bot.send_message(cid,'La grafica es actualizada dia a dia')
             print(color.GREEN + "desagregada enviada" + color.ENDC)
 
 
