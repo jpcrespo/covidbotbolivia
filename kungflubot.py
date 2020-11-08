@@ -89,24 +89,24 @@ def command_help(m):
 	help_text = "Hola, este bot esta mostrara los datos covid19 en Bolivia\n"
 	help_text += "Comandos disponibles: \n"
 	for key in commands:
-        	help_text += "/" + key + ": "
+ 	      	help_text += "/" + key + ": "
         	help_text += commands[key] + "\n"
-    	    bot.send_message(cid, help_text,reply_markup=menu)
+    	   	bot.send_message(cid, help_text,reply_markup=menu)
 
 # EXEC COMANDO
 @bot.message_handler(commands=['Mandar Logs'])
 def command_exec(m):
 	cid = m.chat.id
-    		if cid == 89650251:  # SUSTITUIR
-        		bot.send_message(cid, "Ejecutando: " + m.text[len("/exec"):])
-        		bot.send_chat_action(cid, 'typing')
-        		time.sleep(2)
-        		f = os.popen(m.text[len("/exec"):])
-        		result = f.read()
-        		bot.send_message(cid, "Resultado: " + result)
-    		else:
-        		bot.send_message(cid, "PERMISO DENEGADO, solo Juan The Creator puede acceder")
-       			print(color.RED + " ¡PERMISO DENEGADO! " + color.ENDC)
+	if cid == 89650251:  # SUSTITUIR
+       		bot.send_message(cid, "Ejecutando: " + m.text[len("/exec"):])
+        	bot.send_chat_action(cid, 'typing')
+        	time.sleep(2)
+        	f = os.popen(m.text[len("/exec"):])
+        	result = f.read()
+        	bot.send_message(cid, "Resultado: " + result)
+	else:
+        	bot.send_message(cid, "PERMISO DENEGADO, solo Juan The Creator puede acceder")
+       		print(color.RED + " ¡PERMISO DENEGADO! " + color.ENDC)
 
 
 # MENU PRINCIPAL
@@ -116,19 +116,19 @@ def main_menu(m):
 	text = m.text
 	if text == "Info Covid":  # RPINFO
 		bot.send_message(cid, "Se muestra informacion Covid19 del reporte oficial", reply_markup=info_menu)
-        	userStep[cid] = 1
-    	elif text == "Info Ayuda":  # CAMARA
-        	bot.send_message(cid, "Se muestra informacion de Respuesta ciudadana, sobre profesionales disponibles", reply_markup=ayuda_menu)
-        	userStep[cid] = 2
-    
-    	elif text == 'UVCKill':     
+		userStep[cid] = 1
+	elif text == "Info Ayuda":  # CAMARA
+		bot.send_message(cid, "Se muestra informacion de Respuesta ciudadana, sobre profesionales disponibles", reply_markup=ayuda_menu)
+		userStep[cid] = 2
+
+	elif text == 'UVCKill':
     		bot.send_message(cid,'Se brinda asesoria sobre el metodo de esterilizacion con Luz Ultravioleta',reply=uvc_menu)
     		userStep[cid] = 3
 
 	elif text == "Atras":  # ATRAS
-        	userStep[cid] = 0
-        	bot.send_message(cid, "Menu Principal:", reply_markup=menu)
-    	else:
+		userStep[cid] = 0
+		bot.send_message(cid, "Menu Principal:", reply_markup=menu)
+	else:
         	command_text(m)
 
 
@@ -139,43 +139,43 @@ def info_opt(m):
 	cid = m.chat.id
 	txt = m.text
 	if txt == "Bolivia":  # TEMP
-        	bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('bolivia.png'))))
-        	bot.send_chat_action(cid, 'upload_photo')
-        	bot.send_photo(cid, open("bolivia.png", 'rb'))
+		bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('bolivia.png'))))
+		bot.send_chat_action(cid, 'upload_photo')
+		bot.send_photo(cid, open("bolivia.png", 'rb'))
 		bot.send_message(cid,'La grafica es actualizada dia a dia')
-        	print(color.GREEN + "bolivia enviada" + color.ENDC)
+		print(color.GREEN + "bolivia enviada" + color.ENDC)
 
 	elif txt == 'Desagregados':
-        	bot.send_message(cid, "Se muestra la evolución temporal")
-        	bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('desagregado.png'))))
-        	bot.send_chat_action(cid, 'upload_photo')
+		bot.send_message(cid, "Se muestra la evolución temporal")
+		bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('desagregado.png'))))
+		bot.send_chat_action(cid, 'upload_photo')
 		userStep[cid] = 1
-        	bot.send_photo(cid, open("desagregado.png", 'rb'))
-	    	bot.send_message(cid,'La grafica es actualizada dia a dia')
-        	print(color.GREEN + "desagregada enviada" + color.ENDC)
+		bot.send_photo(cid, open("desagregado.png", 'rb'))
+		bot.send_message(cid,'La grafica es actualizada dia a dia')
+		print(color.GREEN + "desagregada enviada" + color.ENDC)
 
 
 	elif txt == "Atras":  # HD
-        	userStep[cid] = 0
-        	bot.send_message(cid, "Menu Principal:", reply_markup=menu)
-    	else:
+		userStep[cid] = 0
+		bot.send_message(cid, "Menu Principal:", reply_markup=menu)
+	else:
         	command_text(m)
 
 
 @bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 2)
 def cam_opt(m):
 	cid = m.chat.id
-        text = m.text
-        if text == "ProfesionalesDisponibles":  # FOTO
+	text = m.text
+	if text == "ProfesionalesDisponibles":  # FOTO
 		bot.send_message(cid, "En el siguiente enlace obtendra informacion\n")
-        	bot.send_message(cid, "https://bolivia.respuestaciudadana.org/hermanos-1.html#!")
-        	print(color.BLUE + " Enlace ubicacion" + color.ENDC)
-        	userStep[cid]=0
-        else text == 'Contacto':
-        	bot.send_message(cid, "Puede comunicarse con los siguientes numeros ante cualquier duda\n")
-            	userStep[cid]=0
-            	bot.send_message(cid, 800 10 11 04)
-            	bot.send_message(cid, 800 10 11 06,reply_markup=main_menu)
+		bot.send_message(cid, "https://bolivia.respuestaciudadana.org/hermanos-1.html#!")
+		print(color.BLUE + " Enlace ubicacion" + color.ENDC)
+		userStep[cid]=0
+	else text == 'Contacto':
+		bot.send_message(cid, "Puede comunicarse con los siguientes numeros ante cualquier duda\n")
+		userStep[cid]=0
+		bot.send_message(cid, 800 10 11 04)
+		bot.send_message(cid, 800 10 11 06,reply_markup=main_menu)
 
 
 @bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 3)
@@ -203,7 +203,7 @@ def command_text(m):
 	cid = m.chat.id
 	if (m.text.lower() in ['hola', 'hi', 'buenas', 'buenos dias']):
         	bot.send_message(cid, 'Muy buenas, ' + str(m.from_user.first_name) + '. Me alegra verte de nuevo.', parse_mode="Markdown")
-    	elif (m.text.lower() in ['adios', 'aios', 'adeu', 'ciao']):
+	elif (m.text.lower() in ['adios', 'aios', 'adeu', 'ciao']):
         	bot.send_message(cid, 'Hasta luego, ' + str(m.from_user.first_name) + '. Te echaré de menos.', parse_mode="Markdown")
 
 
