@@ -15,8 +15,8 @@ TOKEN = "1183310581:AAGVvRfB8QAYz7raCdMZtBX97JFYCevS6k4"  # SUSTITUIR
 userStep = {}
 knownUsers = []
 commands = {		'Iniciar' 		: 	'Inicia el bot',
-'ayuda'			: 	'Comandos disponible',
-'Mandar Logs'	:	'Mandar los Reportes (Only Admin)'
+                    'ayuda'			: 	'Comandos disponible',
+                    'Mandar Logs'	:	'Mandar los Reportes (Only Admin)'
 }
 
 menu = types.ReplyKeyboardMarkup()
