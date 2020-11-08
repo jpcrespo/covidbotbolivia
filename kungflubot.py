@@ -138,31 +138,31 @@ def main_menu(m):
 # MENU INFO COVID
 @bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 1)
 def info_opt(m):
-        cid = m.chat.id
-        txt = m.text
-        if txt == "Bolivia":  # TEMP
-           bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('bolivia.png'))))
-           bot.send_chat_action(cid, 'upload_photo')
-	       userStep[cid] = 1
-           bot.send_photo(cid, open("bolivia.png", 'rb'))
-	       bot.send_message(cid,'La grafica es actualizada dia a dia')
-           print(color.GREEN + "bolivia enviada" + color.ENDC)
+    cid = m.chat.id
+    txt = m.text
+    if txt == "Bolivia":  # TEMP
+        bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('bolivia.png'))))
+        bot.send_chat_action(cid, 'upload_photo')
+	    userStep[cid] = 1
+        bot.send_photo(cid, open("bolivia.png", 'rb'))
+	    bot.send_message(cid,'La grafica es actualizada dia a dia')
+        print(color.GREEN + "bolivia enviada" + color.ENDC)
 
-        elif txt == 'Desagregados' 
-            bot.send_message(cid, "Se muestra la evolución temporal")
-        	bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('desagregado.png'))))
-            bot.send_chat_action(cid, 'upload_photo')
-	    	userStep[cid] = 1
-            bot.send_photo(cid, open("desagregado.png", 'rb'))
-	    	bot.send_message(cid,'La grafica es actualizada dia a dia')
-            print(color.GREEN + "desagregada enviada" + color.ENDC)
+    elif txt == 'Desagregados':
+        bot.send_message(cid, "Se muestra la evolución temporal")
+        bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('desagregado.png'))))
+        bot.send_chat_action(cid, 'upload_photo')
+	    userStep[cid] = 1
+        bot.send_photo(cid, open("desagregado.png", 'rb'))
+	    bot.send_message(cid,'La grafica es actualizada dia a dia')
+        print(color.GREEN + "desagregada enviada" + color.ENDC)
 
 
-        elif txt == "Atras":  # HD
-            userStep[cid] = 0
-            bot.send_message(cid, "Menu Principal:", reply_markup=menu)
-        else:
-            command_text(m)
+    elif txt == "Atras":  # HD
+        userStep[cid] = 0
+        bot.send_message(cid, "Menu Principal:", reply_markup=menu)
+    else:
+        command_text(m)
 
 
 
