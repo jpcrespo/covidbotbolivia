@@ -171,27 +171,28 @@ def cam_opt(m):
 		bot.send_message(cid, "https://bolivia.respuestaciudadana.org/hermanos-1.html#!")
 		print(color.BLUE + " Enlace ubicacion" + color.ENDC)
 		userStep[cid]=0
-	else text == 'Contacto':
+
+	elif text == 'Contacto':
 		bot.send_message(cid, "Puede comunicarse con los siguientes numeros ante cualquier duda\n")
 		userStep[cid]=0
-		bot.send_message(cid, 800 10 11 04)
-		bot.send_message(cid, 800 10 11 06,reply_markup=main_menu)
+		bot.send_message(cid,'800 10 11 04')
+		bot.send_message(cid,'800 10 11 06',reply_markup=menu)
 
 
 @bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 3)
 def uvc_kill(m):
 	cid = m.chat.id
 	txt = m.text
-	if text == 'Informacion'
+	if text == 'Informacion':
 		bot.send_message(cid, "La luz UVC, es muy eficaz para la esterilizacion de superficies\n")
-        	bot.send_chat_action(cid,'upload_video')
-        	bot.send_video(cid, open('coviduvc.mp4'),'rb')
-        	lol = 'Encontrara informacion mas detallada en el siguiente link'
-        	lol += 'https://n9.cl/yoxa'
-        	lol += 'https://n9.cl/8a38' 
-        	bot.send_message(cid,lol)
-        	userStep[cid]=0
-	else text == 'Solicitar contacto':
+		bot.send_chat_action(cid,'upload_video')
+		bot.send_video(cid, open('coviduvc.mp4'),'rb')
+		lol = 'Encontrara informacion mas detallada en el siguiente link'
+		lol += 'https://n9.cl/yoxa'
+		lol += 'https://n9.cl/8a38'
+		bot.send_message(cid,lol)
+		userStep[cid]=0
+	elif text == 'Solicitar contacto':
 		bot.send_message(cid, "Obtenga asesoramiento experto")
 		bot.send_message(cid, "https://t.me/radiontech",reply_markup=main_menu)
 
@@ -207,6 +208,6 @@ def command_text(m):
         	bot.send_message(cid, 'Hasta luego, ' + str(m.from_user.first_name) + '. Te echaré de menos.', parse_mode="Markdown")
 
 
-print 'Corriendo...'
+print('Corriendo...')
 bot.polling(none_stop=True)
 
