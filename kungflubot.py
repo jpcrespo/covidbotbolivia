@@ -141,15 +141,15 @@ def info_opt(m):
         cid = m.chat.id
         txt = m.text
         if txt == "Bolivia":  # TEMP
-            bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('bolivia.png'))))
-            bot.send_chat_action(cid, 'upload_photo')
-	    	userStep[cid] = 1
-            bot.send_photo(cid, open("bolivia.png", 'rb'))
-	    	bot.send_message(cid,'La grafica es actualizada dia a dia')
-            print(color.GREEN + "bolivia enviada" + color.ENDC)
+           bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('bolivia.png'))))
+           bot.send_chat_action(cid, 'upload_photo')
+	       userStep[cid] = 1
+           bot.send_photo(cid, open("bolivia.png", 'rb'))
+	       bot.send_message(cid,'La grafica es actualizada dia a dia')
+           print(color.GREEN + "bolivia enviada" + color.ENDC)
 
         elif txt == 'Desagregados' 
-        	bot.send_message(cid, "Se muestra la evolución temporal")
+            bot.send_message(cid, "Se muestra la evolución temporal")
         	bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('desagregado.png'))))
             bot.send_chat_action(cid, 'upload_photo')
 	    	userStep[cid] = 1
