@@ -91,7 +91,7 @@ def command_help(m):
 	for key in commands:
         	help_text += "/" + key + ": "
         	help_text += commands[key] + "\n"
-    	bot.send_message(cid, help_text,reply_markup=menu)
+    	    bot.send_message(cid, help_text,reply_markup=menu)
 
 # EXEC COMANDO
 @bot.message_handler(commands=['Mandar Logs'])
