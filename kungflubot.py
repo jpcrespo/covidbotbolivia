@@ -143,7 +143,6 @@ def info_opt(m):
     if txt == "Bolivia":  # TEMP
         bot.send_message(cid, "La grafica esta actualizada hasta "+str(time.ctime(os.path.getmtime('bolivia.png'))))
         bot.send_chat_action(cid, 'upload_photo')
-	    userStep[cid] = 1
         bot.send_photo(cid, open("bolivia.png", 'rb'))
 	    bot.send_message(cid,'La grafica es actualizada dia a dia')
         print(color.GREEN + "bolivia enviada" + color.ENDC)
@@ -163,7 +162,7 @@ def info_opt(m):
         bot.send_message(cid, "Menu Principal:", reply_markup=menu)
     else:
         command_text(m)
-
+    userStep[cid] = 1    
 
 
 
