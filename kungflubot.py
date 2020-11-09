@@ -62,6 +62,15 @@ def listener(messages):
             print("[" + str(m.chat.id) + "] " + str(m.chat.first_name) + " : " + m.text + " - " + str(time.strftime("%c")) )
 
 
+# USER STEP
+def get_user_step(uid):
+    if uid in userStep:
+        return userStep[uid]
+    else:
+        knownUsers.append(uid)
+        userStep[uid] = 0
+        print(color.RED + " [¡] Novo USUARIO" + color.ENDC)
+
 
 
 
@@ -207,6 +216,18 @@ def command_text(m):
     elif (m.text.lower() in ['adios', 'aios', 'adeu', 'ciao']):
         bot.send_message(cid, 'Hasta luego, ' + str(m.from_user.first_name) + '. Te echaré de menos.', parse_mode="Markdown")
 
-print('Corriendo...')
-bot.polling(none_stop=True)
 
+def main_loop():
+    print('Corriendo...')
+    bot.polling(True)
+    
+    while 1:
+        time.sleep(3)
+
+if __name__ == '__main__':
+    try:
+        main_loop()
+    
+    except KeyboardInterrupt:
+        print('\nExiting by user request.\n')
+        sys.exit(0)

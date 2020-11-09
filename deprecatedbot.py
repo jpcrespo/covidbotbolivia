@@ -122,23 +122,22 @@ def main_menu(m):
 # MENU INFO
 @bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 1)
 def info_opt(m):
-        cid = m.chat.id
-        txt = m.text
-        if txt == "Iniciar":  # TEMP
-            bot.send_message(cid, "Generando grafica")
-            print(color.BLUE + "gnu plot covidbol" + color.ENDC)
-            os.system('gnuplot prueba.gnp')
-            bot.send_chat_action(cid, 'upload_photo')
-	    userStep[cid] = 0
-            bot.send_photo(cid, open("covidbol.png", 'rb'))
-	    bot.send_message(cid,'La gráfica es actualizada día a día',reply_markup=menu)
-            print(color.GREEN + "covidbol enviada" + color.ENDC)
+    cid = m.chat.id
+    txt = m.text
+    if txt == "Iniciar":  # TEMP
+        bot.send_message(cid, "Generando grafica")
+        print(color.BLUE + "gnu plot covidbol" + color.ENDC)
+        bot.send_chat_action(cid, 'upload_photo')
+        userStep[cid] = 0
+        bot.send_photo(cid, open("bolivia.png", 'rb'))
+        bot.send_message(cid,'La gráfica es actualizada día a día',reply_markup=menu)
+        print(color.GREEN + "covidbol enviada" + color.ENDC)
 
-        elif txt == "Atras":  # HD
-            userStep[cid] = 0
-            bot.send_message(cid, "Menu Principal:", reply_markup=menu)
-        else:
-            command_text(m)
+    elif txt == "Atras":  # HD
+        userStep[cid] = 0
+        bot.send_message(cid, "Menu Principal:", reply_markup=menu)
+    else:
+        command_text(m)
 
 
 # MENU CAMARA
@@ -150,7 +149,7 @@ def cam_opt(m):
                 
             bot.send_message(cid, "Ha tenido fiebre a mas de 37,5 C??")
             bot.send_chat_action(cid,'record_audio')
-            bot.send_audio(cid, open("file.mp3",'rb'), 1, 'eternnoir','Juan The Creator', reply_markup=enf_menu)
+            bot.send_audio(cid, open("test.m4a",'rb'), 1, 'eternnoir','Juan The Creator', reply_markup=enf_menu)
             print(color.BLUE + " Enviado audio" + color.ENDC)
             userStep[cid] = 3
 
@@ -184,7 +183,7 @@ def cam_opt(m):
             
             bot.send_message(cid, "Es dificil que tengas covid, vende humo\n")
             bot.send_chat_action(cid,'upload_video')
-            bot.send_video(cid, open('video.mp4'),'rb')
+            bot.send_video(cid, open('coviduvc.mp4'),'rb')
             userStep[cid] = 0
             bot.send_message(cid, "Menu Principal:", reply_markup=menu)
         else:
@@ -204,6 +203,6 @@ def command_text(m):
         bot.send_message(cid, 'Hasta luego, ' + str(m.from_user.first_name) + '. Te echaré de menos.', parse_mode="Markdown")
 
 
-print 'Corriendo...'
+print('Corriendo...')
 bot.polling(none_stop=True)
 
