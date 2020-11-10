@@ -18,7 +18,7 @@ commands = {
               'exec': 'Ejecuta un comando'
 }
 
-menu = types.ReplyKeyboardMarkup()
+menu = types.ReplyKeyboardMarkup(selective=True)
 menu.add("infoydata", "TEST")
 
 test_menu = types.ReplyKeyboardMarkup()
