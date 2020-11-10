@@ -39,7 +39,7 @@ knownUsers = []
 
 commands = {		'start' 		: 	'Inicia el bot',
                     'ayuda'			: 	'Comandos disponible',
-                    'Mandar Logs'	:	'Mandar los Reportes (Only Admin)'
+                    'exec'	:	'Mandar los Reportes (Only Admin)'
 }
 
 #Comandos que el bot contiene para operar. chequear entre las opciones
@@ -152,7 +152,7 @@ def command_help(m):
 
 
 # EXEC COMANDO
-@bot.message_handler(commands=['Mandar Logs'])
+@bot.message_handler(commands=['exec'])
 def command_exec(m):
     cid = m.chat.id
     if cid == 89650251:  # cid del admin!
