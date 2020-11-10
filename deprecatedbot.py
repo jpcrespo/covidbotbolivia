@@ -17,7 +17,7 @@ commands = {
               'exec': 'Ejecuta un comando'
 }
 
-menu = types.ReplyKeyboardMarkup(selective=True)
+menu = types.ReplyKeyboardMarkup(one_time_keyboard=True,resize_keyboard=True,row_width=1)
 menu.add("infoydata", "TEST")
 
 test_menu = types.ReplyKeyboardMarkup()
@@ -46,7 +46,8 @@ def get_user_step(uid):
     else:
         knownUsers.append(uid)
         userStep[uid] = 0
-        print(color.RED + " [¡] Novo USUARIO" + color.ENDC)
+	txt='[!]nuevo user '
+        print(color.RED + txt+color.ENDC)
 
 
 # LISTENER
