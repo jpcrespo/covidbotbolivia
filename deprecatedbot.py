@@ -146,7 +146,7 @@ def cam_opt(m):
         cid = m.chat.id
         text = m.text
         if text == "Iniciar":  # FOTO
-                
+
             bot.send_message(cid, "Ha tenido fiebre a mas de 37,5 C??")
             bot.send_chat_action(cid,'record_audio')
             bot.send_audio(cid, open("test.m4a",'rb'), 1, 'eternnoir','Juan The Creator', reply_markup=enf_menu)
@@ -167,7 +167,7 @@ def cam_opt(m):
         cid = m.chat.id
         text = m.text
         if text == "SI":  # FOTO
-                
+
             bot.send_message(cid, "Es probable que tenga covid19\n")
             bot.send_message(cid, "Se le manda la ubicación de un experto")
             bot.send_chat_action(cid, 'find_location')
@@ -180,10 +180,9 @@ def cam_opt(m):
 
 
         elif text == "NO":  # ATRAS
-            
             bot.send_message(cid, "Es dificil que tengas covid, vende humo\n")
             bot.send_chat_action(cid,'upload_video')
-            bot.send_video(cid, open('coviduvc.mp4'),'rb')
+            bot.send_video(cid,open('coviduvc.mp4','rb'))
             userStep[cid] = 0
             bot.send_message(cid, "Menu Principal:", reply_markup=menu)
         else:
