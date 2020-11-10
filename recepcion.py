@@ -1,3 +1,4 @@
+
 import telebot
 import time, os
 
@@ -15,3 +16,4 @@ downloaded_file = bot.download_file(file_info.file_path)
 
 with open('new_file.ogg', 'wb') as new_file:
     new_file.write(downloaded_file)
+
