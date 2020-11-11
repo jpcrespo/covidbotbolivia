@@ -22,7 +22,8 @@
 import telebot
 from telebot import types
 import time, os
-from PIL import Image
+import sys
+#from PIL import Image
 
 
 #token del fatherbot
