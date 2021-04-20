@@ -12,7 +12,7 @@
 """
 
 #Librerias
-import telebot
+import telebot, json
 from telebot import types
 import numpy as np 
 
@@ -25,11 +25,12 @@ import datos
 from datos import *
 
 
-
-userStep = {}                           
+#userStep = {}                         
 #Se almacena como clave : valor, el recorrido del usuario en el bot
 
-knownUsers = []                         
+aux         = np.load('bins/knownUsers.npy', allow_pickle='TRUE') 
+knownUsers  = aux.tolist()
+#knownUsers = []
 #Registro de usuarios conocidos. Queda realizar una funcion que guarde
 #el registro en disco y los vuelva a leer cada vez que el bot inicie
 
@@ -95,8 +96,11 @@ def get_user_step(uid):
        else:
            knownUsers.append(uid)   #En caso de no existir el uid registrado 
            userStep[uid] = 0        #se lo almacena y se inicia su ubicacion en cero
+           np.save('bins/knownUsers.npy', knownUsers)
+           with open("bins/userStep.json", "w") as f:
+                json.dump(userStep,f)
            print(color.RED + "USUARIO nuevo, registrado" + color.ENDC)
-         
+            
 
 
 #La funcion que registra los actos solo en consola servidor
@@ -155,6 +159,7 @@ def command_start(m):
 @bot.message_handler(commands=['help'])
 def command_help(m):
     cid = m.chat.id
+    userStep[cid] = 0
     help_text = "Hola, este bot muestra los datos covid19 en Bolivia\n"
     help_text += "Tambien despliega información de utilidad \n"
     help_text += "Comandos disponibles: \n"
@@ -169,15 +174,16 @@ def command_help(m):
 @bot.message_handler(commands=['exec'])
 def command_exec(m):
     cid = m.chat.id
+    userStep[cid] = 0
     if cid == 89650251:  # cid del admin!
         bot.send_message(cid, "Ejecutan en consola: " + m.text[len("/exec"):])
         bot.send_chat_action(cid, 'typing')
         time.sleep(1)
-        f = os.popen(m.text[len("/exec"):])
-        result = f.read()
+        exec_ = os.popen(m.text[len("/exec"):])
+        result = exec_.read()
         bot.send_message(cid, "Resultado: " + result)
     else:
-        bot.send_message(cid, "PERMISO DENEGADO, solo Juan The Creator puede acceder")
+        bot.send_message(cid, "PERMISO DENEGADO, solo el Admin puede acceder",reply_markup=menu)
         print(color.RED + " ¡PERMISO DENEGADO! " + color.ENDC)
 
 
@@ -185,8 +191,27 @@ def command_exec(m):
 @bot.message_handler(commands=['thanks'])
 def command_exec(m):
     cid = m.chat.id
-    bot.send_message(cid,"Agradecimientos a: ")
-    bot.send_message(cid,'Un capo total',reply_markup=menu)
+    userStep[cid] = 0
+    bot.send_chat_action(cid, 'typing')
+    about='''Este bot fue construido por Industrias Bot 💪💻 puede contactarse en el siguiente enlace: 
+    📲 https://t.me/radiontech \n
+    👨‍💻 El repositorio del proyecto se encuentra en: 
+    🌐 https://github.com/jpcrespo/covidbotbolivia
+    Los datos se actualizan automáticamente cada día a las 00:00, tomando como fuente los siguientes repositorios: 
+    🌐   1. https://github.com/mauforonda/vacunas    
+    🌐   2. https://github.com/mauforonda/covid19-bolivia
+    La base de datos de los números filtrados en Facebook fue gracias a: 🐦 https://twitter.com/ccuencad'
+    Unos capos totales.''' 
+    bot.send_message(cid,about,reply_markup=menu,disable_web_page_preview=True)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -262,15 +287,30 @@ def infomain_menu(m):
 
     elif txt == '🏥 Contactos de emergencia en 🇧🇴':
         bot.send_chat_action(cid,'typing')
-        bot.send_message(cid,'Caja Petrolera de Salud https://www.cps.org.bo/')
-        bot.send_message(cid,'Caja Nacional de Salud https://www.cns.gob.bo/')
-        bot.send_message(cid,'Caja de Salud de la Banca Privada https://portal.csbp.com.bo/')
-        bot.send_message(cid,'Caja Nacional de Caminos http://www.cajasaludcaminos.gob.bo/')
-        bot.send_message(cid,'Caja de Salud Cordes https://www.sistemacordes.org/')
-        bot.send_message(cid,'Caja Bancaria Estatal de salud  https://www.cbes.org.bo/')
-        bot.send_message(cid,'Cossmil https://www.cossmil.mil.bo/#/inicio')
-        bot.send_message(cid,'Seguro Integral de Salud SINEC http://sinec.org.bo/')
-        bot.send_message(cid,'Seguro Social Universitario http://www.ssulapaz.org/',reply_markup=info_menu)
+        inff= ''' Páginas web del sistema de salud a nivel nacional:
+        Caja Petrolera de Salud
+        🌐 https://www.cps.org.bo
+        Caja Nacional de Salud
+        🌐 https://www.cns.gob.bo
+        Caja de Salud de la Banca Privada 
+        🌐 https://portal.csbp.com.bo
+        Caja Nacional de Caminos
+        🌐 http://www.cajasaludcaminos.gob.bo
+        Caja de Salud Cordes 
+        🌐 https://www.sistemacordes.org
+        Caja Bancaria Estatal de salud 
+        🌐 https://www.cbes.org.bo
+        Cossmil 
+        🌐 https://www.cossmil.mil.bo/#/inicio
+        Seguro Integral de Salud SINEC
+        🌐 http://sinec.org.bo
+        Seguro Social Universitario
+        🌐 http://www.ssulapaz.org
+
+        En cada enlace encontrara mas información sobre los números y direcciones a nivel Nacional.
+        '''
+
+        bot.send_message(cid,inff,reply_markup=info_menu,disable_web_page_preview=True)
 
 
     elif txt == "🔙Atrás":  # HD
@@ -426,6 +466,8 @@ def main_loop():
 
 if __name__ == '__main__':
     data = np.load('bins/bd_tb.npy',allow_pickle=True)
+    with open("bins/userStep.json", "r") as tf:
+         userStep = json.load(tf)
     try:
         main_loop()
     

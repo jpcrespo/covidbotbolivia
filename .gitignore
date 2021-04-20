@@ -2,7 +2,7 @@ Bolivia.csv
 Analisis de la base de datos FB
 
 __pycache__/
-
+#bins/
 core/covid19-bolivia
 core/vacunas
 core/datos.py
