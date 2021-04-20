@@ -203,7 +203,7 @@ def command_exec(m):
     La base de datos de los números filtrados en Facebook fue gracias a: 🐦 https://twitter.com/ccuencad'
     Unos capos totales.''' 
     bot.send_message(cid,about,disable_web_page_preview=True)
-    bot.send_message(cid,'Pueedes invitarme un café ☕\nBTC: bc1q8muceqt42f84zcw7gfmdxyxsg7kk9wxcfp7d9e\nADA: addr1q8p8s8ewvh7k0c48kp5t09wfhhmnjhr0283p73326m5cfrrvy58pxn65ppndqfwvah966zhm53323tw6ff3kujld43nq6nj8wl')
+    bot.send_message(cid,'Puedes invitarme un café ☕\nBTC:\nbc1q8muceqt42f84zcw7gfmdxyxsg7kk9wxcfp7d9e\nADA:\naddr1q8p8s8ewvh7k0c48kp5t09wfhhmnjhr0283p73326m5cfrrvy58pxn65ppndqfwvah966zhm53323tw6ff3kujld43nq6nj8wl')
     bot.send_message(cid,'Menú principal:',reply_markup=menu)
 
 
