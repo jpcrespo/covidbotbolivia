@@ -14,8 +14,12 @@
 #Librerias
 import telebot
 from telebot import types
+import pandas as pd
+
 import time, os, sys
 sys.path.insert(0, 'core/')
+
+
 
 import datos
 from datos import *
@@ -128,24 +132,24 @@ def command_start(m):
     if cid in knownUsers:
         userStep[cid] = 0
         bot.send_message(cid, "Hola "+str(m.chat.username)+" que bueno verte nuevamente.")
-        time.sleep(0.7)
+        time.sleep(0.4)
         _a=1
     else:
         bot.send_message(cid, "Hola "+str(m.chat.username)+', te doy la Bienvenida!')
-        time.sleep(0.7)
+        time.sleep(0.4)
         bot.send_message(cid, "Te voy registrando...")
         _a=2
         get_user_step(cid);
 
     bot.send_message(cid, "Iniciando el bot...")
     bot.send_message(cid," 3️⃣ ")
-    time.sleep(0.2)
+    time.sleep(0.1)
     bot.delete_message(m.chat.id, m.message_id+_a+2)
     bot.send_message(cid," 2️⃣ ")
-    time.sleep(0.2)
+    time.sleep(0.1)
     bot.delete_message(m.chat.id, m.message_id+_a+3)
     bot.send_message(cid," 1️⃣ ")
-    time.sleep(0.2)
+    time.sleep(0.1)
     bot.delete_message(m.chat.id, m.message_id+_a+4)
     bot.send_message(cid, "GO  ✅",reply_markup=menu)
 	
@@ -378,18 +382,43 @@ def fbmain_menu(m):
         # bot.send_message(cid,'Puede buscar si su número se encuentra vulnerable.')
         # bot.send_message(cid,'Puede asociar a su numero: ')
         bot.send_message(cid,'Nombres, apellidos, sexo, ciudades, estado civil, trabajo',reply_markup=fb_menu)
-
-
-
     elif txt == '¿mi número se filtró? 🔎':
-        NUM =  bot.reply_to("Ingrese su número 591 ",reply_markup=ForceReply(True))
- 
-
-
+        markup = types.ForceReply(selective=False)
+        target_n =  bot.send_message(cid,"Ingrese su número 591: ",reply_markup=markup);
+        bot.register_next_step_handler(target_n,busqueda)
     elif txt == '🔙Atrás':
         userStep[cid] = 0
-        bot.send_message(cid, "Menu Principal:", reply_markup=menu)
+        bot.send_message(cid, "Menu Principal:", reply_markup=info_menu)
+        
+    else:
+        command_text(m)
+
+
+
+
+
  
+def busqueda(message):
+    cid=message.chat.id
+    nn=message.text
+    if nn.isdigit():
+        n1=int(nn)
+        n2=59100000000+n1
+        if(n1>60000000 and n1<79999999):
+            bot.send_message(cid,"Revisando en la base . . .")
+            index=df[df['A']==n2]
+            if index.empty:
+                bot.send_message(cid,"Su número no esta en la filtración",reply_markup=fb_menu)
+            else:
+                bot.send_message(cid,"Su número ESTA en la filtración, tenga cuidado",reply_markup=fb_menu)
+            
+        else:
+            bot.send_message(cid,"No es un número de Bolivia o esta mal escrito.",reply_markup=fb_menu)
+    
+    else:
+        bot.send_message(cid,"Dato introducido no válido",reply_markup=fb_menu)
+    
+
 
 
 # FILTRAR MENSAJES
@@ -403,10 +432,6 @@ def command_text(m):
 
 
 
-def hello(message):
-    print(message)
-  
-
 
 
 def main_loop():
@@ -415,6 +440,7 @@ def main_loop():
 
 
 if __name__ == '__main__':
+    df = pd.read_csv('Bolivia.csv',sep=',',names=["A","B",'C',"D","E","F","G","H","I","J","K","L","M","N","O"])
     try:
         main_loop()
     

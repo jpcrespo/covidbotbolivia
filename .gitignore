@@ -1,6 +1,6 @@
-Bolivia.txt
+Bolivia.csv
 Analisis de la base de datos FB
 __pycache__/
-core/
-pics/
+bins/
+core/datos.py
 
