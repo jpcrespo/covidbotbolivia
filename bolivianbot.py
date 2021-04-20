@@ -133,27 +133,27 @@ def command_start(m):
     cid = m.chat.id
     if cid in knownUsers:
         userStep[cid] = 0
-        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+" que bueno verte nuevamente.")
+        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+" que bueno verte nuevamente.",disable_notification= False)
         time.sleep(0.4)
         _a=1
     else:
-        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+', te doy la Bienvenida!')
+        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+', te doy la Bienvenida!',disable_notification= False)
         time.sleep(0.4)
-        bot.send_message(cid, "Te voy registrando...")
+        bot.send_message(cid, "Te voy registrando...",disable_notification= False)
         _a=2
         get_user_step(cid);
 
-    bot.send_message(cid, "Iniciando el bot...")
-    bot.send_message(cid," 3️⃣ ")
+    bot.send_message(cid, "Iniciando el bot...",disable_notification= False)
+    bot.send_message(cid," 3️⃣ ",disable_notification= False)
     time.sleep(0.1)
     bot.delete_message(m.chat.id, m.message_id+_a+2)
-    bot.send_message(cid," 2️⃣ ")
+    bot.send_message(cid," 2️⃣ ",disable_notification= False)
     time.sleep(0.1)
     bot.delete_message(m.chat.id, m.message_id+_a+3)
-    bot.send_message(cid," 1️⃣ ")
+    bot.send_message(cid," 1️⃣ ",disable_notification= False)
     time.sleep(0.1)
     bot.delete_message(m.chat.id, m.message_id+_a+4)
-    bot.send_message(cid, "🤖  Listo  ✅... Por favor use los botones.",reply_markup=menu)
+    bot.send_message(cid, "🤖  Listo  ✅... Por favor use los botones.",reply_markup=menu,disable_notification= False)
 	
    # AYUDA
 @bot.message_handler(commands=['help'])
@@ -203,7 +203,7 @@ def command_exec(m):
     La base de datos de los números filtrados en Facebook fue gracias a: 🐦 https://twitter.com/ccuencad'
     Unos capos totales.''' 
     bot.send_message(cid,about,disable_web_page_preview=True)
-    bot.send_message(cid,'Pueedes invitarme un café ☕\nBTC: bc1q8muceqt42f84zcw7gfmdxyxsg7kk9wxcfp7d9e\nADA: addr1q8p8s8ewvh7k0c48kp5t09wfhhmnjhr0283p73326m5cfrrvy58pxn65ppndqfwvah966zhm53323tw6ff3kujld43nq6nj8wl')
+    bot.send_message(cid,'Pueedes invitarme un café ☕\nBTC:\nbc1q8muceqt42f84zcw7gfmdxyxsg7kk9wxcfp7d9e\nADA:\naddr1q8p8s8ewvh7k0c48kp5t09wfhhmnjhr0283p73326m5cfrrvy58pxn65ppndqfwvah966zhm53323tw6ff3kujld43nq6nj8wl')
     bot.send_message(cid,'Menú principal:',reply_markup=menu)
 
 
