@@ -14,7 +14,7 @@
 #Librerias
 import telebot
 from telebot import types
-import pandas as pd
+import numpy as np 
 
 import time, os, sys
 sys.path.insert(0, 'core/')
@@ -391,11 +391,10 @@ def busqueda(m):
         n2=59100000000+n1
         if(n1>60000000 and n1<79999999):
             bot.send_message(cid,"Revisando en la base . . .🔍️🔍️🔍️")
-            index=df[df['A']==n2]
-            if index.empty:
-                bot.send_message(cid,"Su número no esta en la filtración ✔️",reply_markup=fb_menu)
-            else:
+            if np.where(data == n2):
                 bot.send_message(cid,"Su número ESTA en la filtración, tenga cuidado ⚠️",reply_markup=fb_menu)
+            else:
+                bot.send_message(cid,"Su número no esta en la filtración ✔️",reply_markup=fb_menu)
             
         else:
             bot.send_message(cid,"No es un número de Bolivia o esta mal escrito.",reply_markup=fb_menu)
@@ -425,7 +424,7 @@ def main_loop():
 
 
 if __name__ == '__main__':
-    df = pd.read_csv('Bolivia.csv',sep=',',names=["A","B",'C',"D","E","F","G","H","I","J","K","L","M","N","O"])
+    data = np.load('bins/bd_tb.npy',allow_pickle=True)
     try:
         main_loop()
     
