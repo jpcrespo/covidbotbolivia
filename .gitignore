@@ -8,4 +8,5 @@ core/vacunas
 core/datos.py
 core/recopilador.py
 core/work.sh
-
+core/pics/vac*
+core/pics/cov*
