@@ -49,7 +49,7 @@ plt.ylabel('Número de dosis aplicadas')
 plt.xticks(rotation=45)
 plt.grid()
 plt.legend(loc='upper left')
-plt.text(51,0,"Data source: https://github.com/mauforonda/covid19-bolivia"    
+plt.text(51,0,"Data source: https://github.com/mauforonda/vacunas"    
        "\nAutor: Telegram Bot: @Bolivian_Bot"    
        "\nNota: Históricos acumulado", fontsize=6.5)   
 plt.savefig('pics/vacNac.png')
@@ -95,7 +95,7 @@ plt.ylabel('Número de dosis aplicadas')
 plt.xticks(rotation=45)
 plt.grid()
 plt.legend(loc='upper right')
-plt.text(-5,2600,"Data source: https://github.com/mauforonda/vacunas"    
+plt.text(-5,2600,"Data source: https://github.com/mauforonda/covid19-bolivia"    
        "\nAutor: Telegram Bot: @Bolivian_Bot"    
        "\nNota: Históricos acumulado", fontsize=6.3)   
 plt.savefig('pics/covNac.png')
