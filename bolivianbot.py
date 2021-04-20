@@ -389,12 +389,13 @@ def busqueda(m):
     if nn.isdigit():
         n1=int(nn)
         n2=59100000000+n1
+        _a=np.where(data == n2)
         if(n1>60000000 and n1<79999999):
             bot.send_message(cid,"Revisando en la base . . .🔍️🔍️🔍️")
-            if np.where(data == n2):
-                bot.send_message(cid,"Su número ESTA en la filtración, tenga cuidado ⚠️",reply_markup=fb_menu)
-            else:
+            if (len(_a[0])==0):
                 bot.send_message(cid,"Su número no esta en la filtración ✔️",reply_markup=fb_menu)
+            else:
+                bot.send_message(cid,"Su número ESTA en la filtración, tenga cuidado ⚠️",reply_markup=fb_menu)
             
         else:
             bot.send_message(cid,"No es un número de Bolivia o esta mal escrito.",reply_markup=fb_menu)
