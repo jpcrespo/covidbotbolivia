@@ -100,3 +100,16 @@ plt.text(-5,2600,"Data source: https://github.com/mauforonda/vacunas"
        "\nNota: Históricos acumulado", fontsize=6.3)   
 plt.savefig('pics/covNac.png')
 
+
+
+
+from datetime import date
+from datetime import datetime
+now = datetime.now()
+
+with open('datos.py', 'a') as f:
+    mss=str(now.day)+'/'+str(now.month)+'/'+str(now.year)
+    f.write("\n")
+    f.write("flag_date = '" )
+    f.write(mss)
+    f.write("'")
