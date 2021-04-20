@@ -3,4 +3,9 @@ Analisis de la base de datos FB
 
 __pycache__/
 
-core/
+core/covid19-bolivia
+core/vacunas
+core/datos.py
+core/recopilador.py
+
+
