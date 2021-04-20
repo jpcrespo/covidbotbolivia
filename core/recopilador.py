@@ -60,8 +60,8 @@ plt.savefig('pics/vacNac.png')
 # =           Obteniendo el gráfico Variación Diaria           =
 # ==============================================================
 
-var_d=np.zeros((9,403))
-var_d_m=np.zeros((9,403))
+var_d=np.zeros((9,len(data3[0])))
+var_d_m=np.zeros((9,len(data3[0])))
 
 for j in range(9):
 	for i in range(len(data3[0])-1):
@@ -75,9 +75,9 @@ for j in range(9):
 for i in range(len(departamentos1)):
     plt.figure(figsize=(10,5))
     plt.title('Variación Diaria en el Departamento\n del '+departamentos1[i],fontsize=15)
-    plt.plot(y2,var_d[i],label='Variación nuevos casos por día')
-    plt.plot(y2,var_d_m[i],label='Variación fallecimientos por día')
-    plt.xticks(y2[::30],fontsize=6)
+    plt.plot(y1,var_d[i],label='Variación nuevos casos por día')
+    plt.plot(y1,var_d_m[i],label='Variación fallecimientos por día')
+    plt.xticks(y1[::30],fontsize=6)
     plt.ylabel('Casos nuevos por día')
     plt.xticks(rotation=45)
     plt.grid()
