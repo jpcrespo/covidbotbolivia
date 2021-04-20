@@ -7,5 +7,5 @@ core/covid19-bolivia
 core/vacunas
 core/datos.py
 core/recopilador.py
-
+core/work.sh
 
