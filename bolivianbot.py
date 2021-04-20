@@ -57,8 +57,6 @@ _token_='6b697373206d7920617373'
 
 
 
-flag_date='18/04/21'
-
 menu = types.ReplyKeyboardMarkup(row_width=2,resize_keyboard=True,one_time_keyboard=False)
 menu.add('☢️ Esteriliza con UV','⚠️Facebook leak 🇧🇴','☣️🇧🇴 Info covid19 📈\n última actualización: '+flag_date)
 
@@ -131,11 +129,11 @@ def command_start(m):
     cid = m.chat.id
     if cid in knownUsers:
         userStep[cid] = 0
-        bot.send_message(cid, "Hola "+str(m.chat.username)+" que bueno verte nuevamente.")
+        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+" que bueno verte nuevamente.")
         time.sleep(0.4)
         _a=1
     else:
-        bot.send_message(cid, "Hola "+str(m.chat.username)+', te doy la Bienvenida!')
+        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+', te doy la Bienvenida!')
         time.sleep(0.4)
         bot.send_message(cid, "Te voy registrando...")
         _a=2
@@ -151,7 +149,7 @@ def command_start(m):
     bot.send_message(cid," 1️⃣ ")
     time.sleep(0.1)
     bot.delete_message(m.chat.id, m.message_id+_a+4)
-    bot.send_message(cid, "GO  ✅",reply_markup=menu)
+    bot.send_message(cid, "🤖  Listo  ✅... Por favor use los botones.",reply_markup=menu)
 	
    # AYUDA
 @bot.message_handler(commands=['help'])
@@ -258,15 +256,9 @@ def infomain_menu(m):
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacNac.png', 'rb'),reply_markup=info_menu)
 
-
-
-
     elif txt == '📈Reporte por Departamento 📝':
     	userStep[cid] = 3
     	bot.send_message(cid,'Se muestran los datos desagregados por Departamento',reply_markup=inf_dep)
-
-
-
 
     elif txt == '🏥 Contactos de emergencia en 🇧🇴':
         bot.send_chat_action(cid,'typing')
@@ -290,7 +282,7 @@ def infomain_menu(m):
 
 
 @bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 3)
-def infomain_menu(m):
+def infodep_menu(m):
     cid = m.chat.id
     txt = m.text
     if txt == "La Paz":
@@ -377,10 +369,8 @@ def fbmain_menu(m):
     txt = m.text
     if txt == '👁️ DISCLAIMER':
         bot.send_chat_action(cid,'typing')
-        bot.send_message(cid,"En el filtrado de datos de Facebook del 2021 balbalbalbalablabablalbablablablablablablablablablalbablablablablabl")
-        # bot.send_message(cid,'se expusieron casi 3 millones de cuentas Bolivianas')
-        # bot.send_message(cid,'Puede buscar si su número se encuentra vulnerable.')
-        # bot.send_message(cid,'Puede asociar a su numero: ')
+        bot.send_message(cid,"En el filtrado de datos de Facebook del 2021 se expusieron casi 3 millones de cuentas Bolivianas, puede buscar si su número se encuentra vulnerable.")
+        bot.send_message(cid,'Puede asociar a su número con: ')
         bot.send_message(cid,'Nombres, apellidos, sexo, ciudades, estado civil, trabajo',reply_markup=fb_menu)
     elif txt == '¿mi número se filtró? 🔎':
         markup = types.ForceReply(selective=False)
@@ -388,29 +378,24 @@ def fbmain_menu(m):
         bot.register_next_step_handler(target_n,busqueda)
     elif txt == '🔙Atrás':
         userStep[cid] = 0
-        bot.send_message(cid, "Menu Principal:", reply_markup=info_menu)
+        bot.send_message(cid, "Menu Principal:", reply_markup=menu)
         
     else:
         command_text(m)
-
-
-
-
-
  
-def busqueda(message):
-    cid=message.chat.id
-    nn=message.text
+def busqueda(m):
+    cid=m.chat.id
+    nn=m.text
     if nn.isdigit():
         n1=int(nn)
         n2=59100000000+n1
         if(n1>60000000 and n1<79999999):
-            bot.send_message(cid,"Revisando en la base . . .")
+            bot.send_message(cid,"Revisando en la base . . .🔍️🔍️🔍️")
             index=df[df['A']==n2]
             if index.empty:
-                bot.send_message(cid,"Su número no esta en la filtración",reply_markup=fb_menu)
+                bot.send_message(cid,"Su número no esta en la filtración ✔️",reply_markup=fb_menu)
             else:
-                bot.send_message(cid,"Su número ESTA en la filtración, tenga cuidado",reply_markup=fb_menu)
+                bot.send_message(cid,"Su número ESTA en la filtración, tenga cuidado ⚠️",reply_markup=fb_menu)
             
         else:
             bot.send_message(cid,"No es un número de Bolivia o esta mal escrito.",reply_markup=fb_menu)
