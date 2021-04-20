@@ -133,27 +133,27 @@ def command_start(m):
     cid = m.chat.id
     if cid in knownUsers:
         userStep[cid] = 0
-        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+" que bueno verte nuevamente.")
+        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+" que bueno verte nuevamente.",disable_notification= False)
         time.sleep(0.4)
         _a=1
     else:
-        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+', te doy la Bienvenida!')
+        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+', te doy la Bienvenida!',disable_notification= False)
         time.sleep(0.4)
-        bot.send_message(cid, "Te voy registrando...")
+        bot.send_message(cid, "Te voy registrando...",disable_notification= False)
         _a=2
         get_user_step(cid);
 
-    bot.send_message(cid, "Iniciando el bot...")
-    bot.send_message(cid," 3️⃣ ")
+    bot.send_message(cid, "Iniciando el bot...",disable_notification= False)
+    bot.send_message(cid," 3️⃣ ",disable_notification= False)
     time.sleep(0.1)
     bot.delete_message(m.chat.id, m.message_id+_a+2)
-    bot.send_message(cid," 2️⃣ ")
+    bot.send_message(cid," 2️⃣ ",disable_notification= False)
     time.sleep(0.1)
     bot.delete_message(m.chat.id, m.message_id+_a+3)
-    bot.send_message(cid," 1️⃣ ")
+    bot.send_message(cid," 1️⃣ ",disable_notification= False)
     time.sleep(0.1)
     bot.delete_message(m.chat.id, m.message_id+_a+4)
-    bot.send_message(cid, "🤖  Listo  ✅... Por favor use los botones.",reply_markup=menu)
+    bot.send_message(cid, "🤖  Listo  ✅... Por favor use los botones.",reply_markup=menu,disable_notification= False)
 	
    # AYUDA
 @bot.message_handler(commands=['help'])
