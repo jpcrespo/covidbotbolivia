@@ -8,10 +8,9 @@ import datos
 from datos import *
 
 
-# aux         = np.load('bins/knownUsers.npy', allow_pickle='TRUE') 
-# knownUsers  = aux.tolist()
+aux         = np.load('bins/knownUsers.npy', allow_pickle='TRUE') 
+knownUsers  = aux.tolist()
 
-knownUsers = [89650251]
 
 bot = telebot.TeleBot(token)
 
