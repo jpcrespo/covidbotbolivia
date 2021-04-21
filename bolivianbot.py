@@ -175,7 +175,7 @@ def command_help(m):
 def command_exec(m):
     cid = m.chat.id
     userStep[cid] = 0
-    if cid == 89650251:  # cid del admin!
+    if cid == master:  # cid del admin!
         bot.send_message(cid, "Ejecutan en consola: " + m.text[len("/exec"):])
         bot.send_chat_action(cid, 'typing')
         time.sleep(1)
