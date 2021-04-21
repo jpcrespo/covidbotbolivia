@@ -108,7 +108,7 @@ from datetime import datetime
 now = datetime.now()
 
 with open('datos.py', 'a') as f:
-    mss=str(now.day)+'/'+str(now.month)+'/'+str(now.year)
+    mss=str(now.day)+'/'+str(now.month)+'/'+str(now.year)+'-'+str(now.hour)+":"+str(now.minute)
     f.write("\n")
     f.write("flag_date = '" )
     f.write(mss)
