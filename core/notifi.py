@@ -9,7 +9,7 @@ from datos import *
 bot = telebot.TeleBot(token)
 
 
-bot.send_message(master, '🤖 El bot se ha actualizado correctamente: '+flag_date,disable_notification= True )
+bot.send_message(master, '🤖 El bot se ha actualizado correctamente: '+act_mss,disable_notification= True )
 
 
 
