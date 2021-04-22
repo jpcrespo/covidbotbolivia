@@ -1,57 +1,145 @@
-
 import os,sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+last_date = '2021-04-21'
 
-df1=pd.read_csv('vacunas/datos/primera.csv',sep=',').sort_values(by='fecha')
-df2=pd.read_csv('vacunas/datos/segunda.csv',sep=',').sort_values(by='fecha')
-df3=pd.read_csv('covid19-bolivia/confirmados.csv',sep=',').sort_values(by='Fecha')
-df4=pd.read_csv('covid19-bolivia/decesos.csv',sep=',').sort_values(by='Fecha')
+df1=pd.read_csv('vacunas/datos/primera.csv',sep=',').sort_values(by='fecha').set_index('fecha')
+df2=pd.read_csv('vacunas/datos/segunda.csv',sep=',').sort_values(by='fecha').set_index('fecha')
+
+df3=pd.read_csv('covid19-bolivia/confirmados.csv',sep=',').sort_values(by='Fecha').set_index('Fecha')
+df4=pd.read_csv('covid19-bolivia/decesos.csv',sep=',').sort_values(by='Fecha').set_index('Fecha')
+
+departamentos_v=['Beni','Chuquisaca','Cochabamba','La Paz','Oruro','Pando','Potosi','Santa Cruz','Tarija']
+departamentos_c=['La Paz','Cochabamba','Santa Cruz','Oruro','Potosí','Tarija','Chuquisaca','Beni','Pando']
+
+data1 = df1.iloc[:,:].values.T
+data2 = df2.iloc[:,:].values.T
+
+data3 = df3.iloc[:,:].values.T
+data4 = df4.iloc[:,:].values.T
+
+# En el caso de la presentación de datos del Nacional
+# se plantea obtener los nuevos casos diarios. Igual que en
+# vacunaciones pero solo para obtener la última actualización del día.
+
+var_c=np.zeros((9,len(data3[0])))
+var_m=np.zeros((9,len(data4[0])))
+
+for j in range(9):
+    var_c[j,0]=data3[j,0]
+    var_m[j,0]=data4[j,0]
+    for i in range(1,len(data3[0])-2):
+        var_c[j,i]=data3[j,i]-data3[j,i-1]
+        var_m[j,i]=data4[j,i]-data4[j,i-1]
+        
+        
+        
+#Para encontrar solo el valor de vacunados día (en la gráfica solo interesa el acumulado)
+#como dato díario se rescata pero no graficamos la variación diaria de vacunas 
+var_v1=np.zeros(9)
+var_v2=np.zeros(9)
+for j in range(9):
+    var_v1[j]=data1[j,-1]-data1[j,-2]
+    var_v2[j]=data2[j,-1]-data2[j,-2]
+    
+y_v=df1.index.values       #Para los gráficos de las vacunas
+y_c=df3.index.values       #Para los gráficos de los datos covid
+    
+#Ahora para que las gráficas de los datos covid se vean bien 
+#sobre los puntos de los datos reportados ira un curva 
+#pero de los promedios por semana. 
+
+#promedio de 7 dias
+mean_df_c = df3.rolling(7,min_periods=1).mean()
+mean_df_m = df4.rolling(7,min_periods=1).mean()
+
+mean_dc = mean_df_c.iloc[:,:].values.T   
+mean_dm = mean_df_m.iloc[:,:].values.T   
+
+var_mc=np.zeros((9,len(mean_dc[0])))
+var_mm=np.zeros((9,len(mean_dm[0])))
+
+for j in range(9):
+    var_mc[j,0]=mean_dc[j,0]
+    var_mm[j,0]=mean_dc[j,0]
+    for i in range(1,len(data3[0])-2):
+        var_mc[j,i]=mean_dc[j,i]-mean_dc[j,i-1]
+        var_mm[j,i]=mean_dm[j,i]-mean_dm[j,i-1]
+        
+        
+#Generador de imagenes  VACUNAS
+plt.style.use('classic')
+
+from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
+import matplotlib.image as mpimg
+
+bol = mpimg.imread('bol.jpg')
+imagebox = OffsetImage(bol,zoom=0.15)
 
 
-departamentos=['Beni','Chuquisaca','Cochabamba','La Paz','Oruro','Pando','Potosi','Santa Cruz','Tarija']
-departamentos1=['La Paz','Cochabamba','Santa Cruz','Oruro','Potosí','Tarija','Chuquisaca','Beni','Pando']
+# These are the "Tableau 20" colors as RGB.    
+tableau20 = [(31, 119, 180), (174, 199, 232), (255, 127, 14), (255, 187, 120),    
+             (44, 160, 44), (152, 223, 138), (214, 39, 40), (255, 152, 150),    
+             (148, 103, 189), (197, 176, 213), (140, 86, 75), (196, 156, 148),    
+             (227, 119, 194), (247, 182, 210), (127, 127, 127), (199, 199, 199),    
+             (188, 189, 34), (219, 219, 141), (23, 190, 207), (158, 218, 229)]    
+  
+# Scale the RGB values to the [0, 1] range, which is the format matplotlib accepts.    
+for i in range(len(tableau20)):    
+    r, g, b = tableau20[i]    
+    tableau20[i] = (r / 255., g / 255., b / 255.)   
 
-y  = df1['fecha']
-y1 = df3['Fecha']
-
-data1 = df1.iloc[:,1:].values.T
-data2 = df2.iloc[:,1:].values.T
-
-data3 = df3.iloc[:,1:].values.T
-data4 = df4.iloc[:,1:].values.T
-
-
-for i in range(len(departamentos)):
-    plt.figure(figsize=(10,5))
-    plt.title('Vacunaciones en el Departamento\n del '+departamentos[i],fontsize=15)
-    plt.plot(y,data1[i],label='Primera dosis')
-    plt.plot(y,data2[i],label='Segunda dosis')
-    plt.xticks(y[::7],fontsize=6)
-    plt.ylabel('Número de dosis aplicadas')
-    plt.xticks(rotation=45)
-    plt.grid()
-    plt.legend(loc='upper left')
-    plt.text(51,0,"Data source: https://github.com/mauforonda/vacunas"    
+for i in range(len(departamentos_v)):
+    plt.figure(figsize=(20,15))
+    
+    plt.title('Vacunaciones en el Departamento: '+departamentos_v[i]+'\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
+    plt.plot(y_v,data1[i],linewidth=1.5,color=tableau20[0])
+    plt.plot(y_v,data2[i],linewidth=1.5,color=tableau20[4])
+    plt.xticks(y_v[::7],fontsize=15,rotation=45)
+    plt.ylabel('Vacunados',fontsize=20)
+    plt.ylim(0,np.max(data1[i]))
+    plt.gca().yaxis.grid(linestyle='--',linewidth=0.5,dashes=(5,15))
+    plt.gca().spines["top"].set_visible(False)    
+    plt.gca().spines["bottom"].set_visible(True)    
+    plt.gca().spines["right"].set_visible(False)    
+    plt.gca().spines["left"].set_visible(False)  
+    plt.gca().get_xaxis().tick_bottom()    
+    plt.gca().get_yaxis().tick_left()
+    plt.text(78, data1[i,-1],'1er Dosis',fontsize=20,color=tableau20[0])
+    plt.text(78, data2[i,-1],'2da Dosis',fontsize=20,color=tableau20[4])
+    plt.text(55,400,"Data source: https://github.com/mauforonda/vacunas"    
        "\nAutor: Telegram Bot: @Bolivian_Bot"    
-       "\nNota: Históricos acumulado", fontsize=6.5)  
-    plt.savefig('pics/vac'+departamentos[i]+'.png')
+       "\nNota: Histórico acumulado", fontsize=12)  
+    plt.savefig('pics/vac'+departamentos_v[i]+'.png')
+
 
 nacional1=data1[0]+data1[1]+data1[2]+data1[3]+data1[4]+data1[5]+data1[6]+data1[7]+data1[8]
 nacional2=data2[0]+data2[1]+data2[2]+data2[3]+data2[4]+data2[5]+data2[6]+data2[7]+data2[8]
-plt.figure(figsize=(10,5))
-plt.title('Vacunaciones en el Nacional',fontsize=15)
-plt.plot(y,nacional1,label='Primera dosis')
-plt.plot(y,nacional2,label='Segunda dosis')
-plt.xticks(y[::7],fontsize=6)
-plt.ylabel('Número de dosis aplicadas')
-plt.xticks(rotation=45)
-plt.grid()
-plt.legend(loc='upper left')
-plt.text(51,0,"Data source: https://github.com/mauforonda/vacunas"    
+
+op=int(len(nacional1)/1.12)
+firma = AnnotationBbox(imagebox,(20,nacional1[op]))
+
+plt.figure(figsize=(20,15))
+plt.title('Vacunación a nivel Nacional\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
+plt.plot(y_v,nacional1,linewidth=2,color=tableau20[0])
+plt.plot(y_v,nacional2,linewidth=2,color=tableau20[4])
+plt.xticks(y_v[::7],fontsize=15,rotation=45)
+plt.ylabel('Vacunados',fontsize=20)
+plt.ylim(0,np.max(nacional1))
+#plt.gca().yaxis.grid(linestyle='--',linewidth=0.5,dashes=(5,15))
+plt.gca().spines["top"].set_visible(False)    
+plt.gca().spines["bottom"].set_visible(True)    
+plt.gca().spines["right"].set_visible(False)    
+plt.gca().spines["left"].set_visible(False)  
+plt.gca().get_xaxis().tick_bottom()    
+plt.gca().get_yaxis().tick_left()
+plt.gca().add_artist(firma)
+plt.text(78, nacional1[-1],'1er Dosis',fontsize=20,color=tableau20[0])
+plt.text(78, nacional2[-1],'2da Dosis',fontsize=20,color=tableau20[4])
+plt.text(55,8000,"Data source: https://github.com/mauforonda/vacunas"    
        "\nAutor: Telegram Bot: @Bolivian_Bot"    
-       "\nNota: Históricos acumulado", fontsize=6.5)   
+       "\nNota: Histórico acumulado", fontsize=12)  
 plt.savefig('pics/vacNac.png')
 
 
@@ -60,48 +148,66 @@ plt.savefig('pics/vacNac.png')
 # =           Obteniendo el gráfico Variación Diaria           =
 # ==============================================================
 
-var_d=np.zeros((9,len(data3[0])))
-var_d_m=np.zeros((9,len(data3[0])))
-
-for j in range(9):
-	for i in range(len(data3[0])-1):
-		var_d[j,i]=data3[j,i+1]-data3[j,i]
-		var_d_m[j,i]=data4[j,i+1]-data4[j,i]
-
-
-# # # ======  End of Obteniendo eláfico Variación Diaria  =======
-	
-
-for i in range(len(departamentos1)):
-    plt.figure(figsize=(10,5))
-    plt.title('Variación Diaria en el Departamento\n del '+departamentos1[i],fontsize=15)
-    plt.plot(y1,var_d[i],label='Variación nuevos casos por día')
-    plt.plot(y1,var_d_m[i],label='Variación fallecimientos por día')
-    plt.xticks(y1[::30],fontsize=6)
-    plt.ylabel('Casos nuevos por día')
-    plt.xticks(rotation=45)
-    plt.grid()
-    plt.legend(loc='upper right')
-    plt.savefig('pics/cov'+departamentos1[i]+'.png')
-
-nacional1_=var_d[0]+var_d[1]+var_d[2]+var_d[3]+var_d[4]+var_d[5]+var_d[6]+var_d[7]+var_d[8]
-nacional2_=var_d_m[0]+var_d_m[1]+var_d_m[2]+var_d_m[3]+var_d_m[4]+var_d_m[5]+var_d_m[6]+var_d_m[7]+var_d_m[8]
-plt.figure(figsize=(10,5))
-plt.title('Variación Diaria Nacional',fontsize=15)
-plt.plot(y1,nacional1_,label='Variación nuevos casos por día')
-plt.plot(y1,nacional2_,label='Variación fallecimientos por día')
-plt.xticks(y1[::30],fontsize=6)
-plt.ylabel('Número de dosis aplicadas')
-plt.xticks(rotation=45)
-plt.grid()
-plt.legend(loc='upper right')
-plt.text(-5,2600,"Data source: https://github.com/mauforonda/covid19-bolivia"    
+for i in range(len(departamentos_c)):
+    plt.figure(figsize=(20,15))
+    plt.title('Nuevos casos/día en el Departamento: '+departamentos_c[i]+'\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
+    plt.plot(y_c,var_c[i],label='Nuevos Casos/día',linewidth=0.15,color=tableau20[0],linestyle='-',marker='.', markersize=3,markeredgecolor='red',markerfacecolor='r')
+    plt.plot(y_c,var_mc[i],label='Promedio 7 días',linewidth=5,color=tableau20[1],linestyle='-')
+    plt.plot(y_c,var_m[i],label='Fallecimientos/día',linewidth=5,color=tableau20[7],linestyle='-')
+    plt.legend(loc='upper left')
+    plt.xticks(y_c[::31],fontsize=15,rotation=45)
+    plt.ylim(0,np.max(var_c[i]))  
+    plt.ylabel('Casos/día',fontsize=20)
+    plt.gca().yaxis.grid(linestyle='--',linewidth=0.5,dashes=(5,15))
+    plt.gca().spines["top"].set_visible(False)    
+    plt.gca().spines["bottom"].set_visible(True)    
+    plt.gca().spines["right"].set_visible(False)    
+    plt.gca().spines["left"].set_visible(False)  
+    plt.gca().get_xaxis().tick_bottom()    
+    plt.gca().get_yaxis().tick_left()
+    plt.text(10,np.max(var_c[i])/2,"Data source: https://github.com/mauforonda/covid19-bolivia"    
        "\nAutor: Telegram Bot: @Bolivian_Bot"    
-       "\nNota: Históricos acumulado", fontsize=6.3)   
+       "\nNota: Histórico acumulado", fontsize=12) 
+    plt.savefig('pics/cov'+departamentos_c[i]+'.png')
+    
+
+nacional1_=var_c[0]+var_c[1]+var_c[2]+var_c[3]+var_c[4]+var_c[5]+var_c[6]+var_c[7]+var_c[8]
+nacional2_=var_mc[0]+var_mc[1]+var_mc[2]+var_mc[3]+var_mc[4]+var_mc[5]+var_mc[6]+var_mc[7]+var_mc[8]
+nacional3_=var_mm[0]+var_mm[1]+var_mm[2]+var_mm[3]+var_mm[4]+var_mm[5]+var_mm[6]+var_mm[7]+var_mm[8]
+
+
+plt.figure(figsize=(20,15))
+plt.title('Nuevos casos/día a nivel Nacional'+'\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
+plt.plot(y_c,nacional1_,label='Nuevos Casos/día',linewidth=0.15,color=tableau20[0],linestyle='-',marker='.',markersize=3,markeredgecolor='red',markerfacecolor='r')
+plt.plot(y_c,nacional2_,label='Promedio 7 días',linewidth=5,color=tableau20[1],linestyle='-')
+plt.plot(y_c,nacional3_,label='Fallecimientos/día',linewidth=5,color=tableau20[7],linestyle='-')
+
+
+
+bol1 = mpimg.imread('bol.jpg')
+imagebox1 = OffsetImage(bol1,zoom=0.15)
+
+firma1 = AnnotationBbox(imagebox1,(60,np.max(nacional1_)/1.2))
+
+
+
+
+plt.legend(loc='upper right')
+plt.xticks(y_c[::31],fontsize=15,rotation=45)
+plt.ylim(0,np.max(nacional1_))  
+plt.ylabel('Casos/día',fontsize=20)
+#plt.gca().yaxis.grid(linestyle='--',linewidth=0.5,dashes=(5,15))
+plt.gca().spines["top"].set_visible(False)    
+plt.gca().spines["bottom"].set_visible(True)    
+plt.gca().spines["right"].set_visible(False)    
+plt.gca().spines["left"].set_visible(False)  
+plt.gca().get_xaxis().tick_bottom()    
+plt.gca().get_yaxis().tick_left()
+plt.gca().add_artist(firma1)
+plt.text(10,1800,"Data source: https://github.com/mauforonda/covid19-bolivia"    
+       "\nAutor: Telegram Bot: @Bolivian_Bot"    
+       "\nNota: Histórico acumulado", fontsize=12) 
 plt.savefig('pics/covNac.png')
-
-
-
 
 from datetime import date
 from datetime import datetime
@@ -118,3 +224,4 @@ with open('datos.py', 'a') as f:
     f.write("act_mss = '")
     f.write(mss1)
     f.write("'")
+
