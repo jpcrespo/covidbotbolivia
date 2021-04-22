@@ -69,7 +69,7 @@ for j in range(9):
         
         
 #Generador de imagenes  VACUNAS
-plt.style.use('classic')
+plt.style.use('dark_background')
 
 from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
 import matplotlib.image as mpimg
