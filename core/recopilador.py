@@ -75,7 +75,7 @@ from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationB
 import matplotlib.image as mpimg
 
 bol = mpimg.imread('bol.jpg')
-imagebox = OffsetImage(bol,zoom=0.15)
+imagebox = OffsetImage(bol,zoom=1)
 
 
 # These are the "Tableau 20" colors as RGB.    
@@ -185,7 +185,7 @@ plt.plot(y_c,nacional3_,label='Fallecimientos/día',linewidth=5,color=tableau20[
 
 
 bol1 = mpimg.imread('bol.jpg')
-imagebox1 = OffsetImage(bol1,zoom=0.15)
+imagebox1 = OffsetImage(bol1,zoom=1)
 
 firma1 = AnnotationBbox(imagebox1,(60,np.max(nacional1_)/1.2))
 
