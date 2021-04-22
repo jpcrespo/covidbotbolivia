@@ -94,8 +94,8 @@ for i in range(len(departamentos_v)):
     plt.figure(figsize=(20,15))
     
     plt.title('Vacunaciones en el Departamento: '+departamentos_v[i]+'\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
-    plt.plot(y_v,data1[i],linewidth=1.5,color=tableau20[0])
-    plt.plot(y_v,data2[i],linewidth=1.5,color=tableau20[4])
+    plt.plot(y_v,data1[i],linewidth=3,color=tableau20[0])
+    plt.plot(y_v,data2[i],linewidth=3,color=tableau20[4])
     plt.xticks(y_v[::7],fontsize=15,rotation=45)
     plt.ylabel('Vacunados',fontsize=20)
     plt.ylim(0,np.max(data1[i]))
@@ -122,8 +122,8 @@ firma = AnnotationBbox(imagebox,(20,nacional1[op]))
 
 plt.figure(figsize=(20,15))
 plt.title('Vacunación a nivel Nacional\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
-plt.plot(y_v,nacional1,linewidth=2,color=tableau20[0])
-plt.plot(y_v,nacional2,linewidth=2,color=tableau20[4])
+plt.plot(y_v,nacional1,linewidth=3,color=tableau20[0])
+plt.plot(y_v,nacional2,linewidth=3,color=tableau20[4])
 plt.xticks(y_v[::7],fontsize=15,rotation=45)
 plt.ylabel('Vacunados',fontsize=20)
 plt.ylim(0,np.max(nacional1))
@@ -151,10 +151,10 @@ plt.savefig('pics/vacNac.png')
 for i in range(len(departamentos_c)):
     plt.figure(figsize=(20,15))
     plt.title('Nuevos casos/día en el Departamento: '+departamentos_c[i]+'\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
-    plt.plot(y_c,var_c[i],label='Nuevos Casos/día',linewidth=0.15,color=tableau20[0],linestyle='-',marker='.', markersize=3,markeredgecolor='red',markerfacecolor='r')
+    plt.plot(y_c,var_c[i],label='Nuevos Casos/día',linewidth=0.5,color=tableau20[0],linestyle='-',marker='.', markersize=5,markeredgecolor='red',markerfacecolor='r')
     plt.plot(y_c,var_mc[i],label='Promedio 7 días',linewidth=5,color=tableau20[1],linestyle='-')
     plt.plot(y_c,var_m[i],label='Fallecimientos/día',linewidth=5,color=tableau20[7],linestyle='-')
-    plt.legend(loc='upper left')
+    plt.legend(loc='upper left',fontsize=20)
     plt.xticks(y_c[::31],fontsize=15,rotation=45)
     plt.ylim(0,np.max(var_c[i]))  
     plt.ylabel('Casos/día',fontsize=20)
@@ -178,7 +178,7 @@ nacional3_=var_mm[0]+var_mm[1]+var_mm[2]+var_mm[3]+var_mm[4]+var_mm[5]+var_mm[6]
 
 plt.figure(figsize=(20,15))
 plt.title('Nuevos casos/día a nivel Nacional'+'\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
-plt.plot(y_c,nacional1_,label='Nuevos Casos/día',linewidth=0.15,color=tableau20[0],linestyle='-',marker='.',markersize=3,markeredgecolor='red',markerfacecolor='r')
+plt.plot(y_c,nacional1_,label='Nuevos Casos/día',linewidth=0.5,color=tableau20[0],linestyle='-',marker='.',markersize=5,markeredgecolor='red',markerfacecolor='r')
 plt.plot(y_c,nacional2_,label='Promedio 7 días',linewidth=5,color=tableau20[1],linestyle='-')
 plt.plot(y_c,nacional3_,label='Fallecimientos/día',linewidth=5,color=tableau20[7],linestyle='-')
 
@@ -192,7 +192,7 @@ firma1 = AnnotationBbox(imagebox1,(60,np.max(nacional1_)/1.2))
 
 
 
-plt.legend(loc='upper right')
+plt.legend(loc='upper right',fontsize=20)
 plt.xticks(y_c[::31],fontsize=15,rotation=45)
 plt.ylim(0,np.max(nacional1_))  
 plt.ylabel('Casos/día',fontsize=20)
