@@ -25,6 +25,12 @@ import datos
 from datos import *
 
 
+
+
+estados = np.load('core/estados.npy')
+fechas = np.load('core/fechas.npy')
+
+
 #userStep = {}                         
 #Se almacena como clave : valor, el recorrido del usuario en el bot
 
@@ -276,10 +282,13 @@ def infomain_menu(m):
     cid = m.chat.id
     txt = m.text
     if txt == "📈Reporte Nacional 🇧🇴":
-        bot.send_message(cid,'Curva de variación diaria de casos')
+        bot.send_message(cid,'Reporte nacional díario, último día actualizado '+fechas[0])
+        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(np.sum(estados[0])))+
+    '\nFallecimientos ⚰️ '+str(int(np.sum(estados[1])))+
+    '\nVacunados 1era Dosis 💉 '+str(int(np.sum(estados[2])))+
+    '\nVacunados 2da  Dosis 💉 '+str(int(np.sum(estados[3]))))
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covNac.png', 'rb'))
-        bot.send_message(cid,'Vacunación a nivel Nacional 💉')
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacNac.png', 'rb'),reply_markup=info_menu)
 
@@ -328,72 +337,123 @@ def infodep_menu(m):
     cid = m.chat.id
     txt = m.text
     if txt == "La Paz":
-        bot.send_message(cid,'Curva de variación diaria de casos')
+        bot.send_message(cid,'Reporte díario, último día actualizado '+fechas[0])
+        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,0]))+
+    '\nFallecimientos ⚰️ '+str(int(estados[1,0]))+
+    '\nVacunados 1era Dosis 💉 '+str(int(estados[2,0]))+
+    '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,0])))
+
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covLa Paz.png', 'rb'))
-        bot.send_message(cid,'Vacunación 💉')
+        bot.send_message(cid,'Reporte díario vacunas, último día actualizado '+fechas[1])
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacLa Paz.png', 'rb'),reply_markup=inf_dep)
 
     elif txt == 'Cochabamba':
-        bot.send_message(cid,'Curva de variación diaria de casos')
+        
+        bot.send_message(cid,'Reporte díario, último día actualizado '+fechas[0])
+        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,1]))+
+    '\nFallecimientos ⚰️ '+str(int(estados[1,1]))+
+    '\nVacunados 1era Dosis 💉 '+str(int(estados[2,1]))+
+    '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,1])))
+
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covCochabamba.png', 'rb'))
-        bot.send_message(cid,'Vacunación 💉')
+        bot.send_message(cid,'Reporte díario vacunas, último día actualizado '+fechas[1])
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacCochabamba.png', 'rb'),reply_markup=inf_dep)
 
     elif txt == 'Santa Cruz':
-        bot.send_message(cid,'Curva de variación diaria de casos')
+        bot.send_message(cid,'Reporte díario, último día actualizado '+fechas[0])
+        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,2]))+
+    '\nFallecimientos ⚰️ '+str(int(estados[1,2]))+
+    '\nVacunados 1era Dosis 💉 '+str(int(estados[2,2]))+
+    '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,2])))
+
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covSanta Cruz.png', 'rb'))
-        bot.send_message(cid,'Vacunación 💉')
+        bot.send_message(cid,'Reporte díario vacunas, último día actualizado '+fechas[1])
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacSanta Cruz.png', 'rb'),reply_markup=inf_dep)
 
     elif txt == 'Potosí':
-        bot.send_message(cid,'Curva de variación diaria de casos')
+        bot.send_message(cid,'Reporte díario, último día actualizado '+fechas[0])
+        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,4]))+
+    '\nFallecimientos ⚰️ '+str(int(estados[1,4]))+
+    '\nVacunados 1era Dosis 💉 '+str(int(estados[2,4]))+
+    '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,4])))
+
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covPotosí.png', 'rb'))
-        bot.send_message(cid,'Vacunación 💉')
+        bot.send_message(cid,'Reporte díario vacunas, último día actualizado '+fechas[1])
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacPotosi.png', 'rb'),reply_markup=inf_dep)
 
     elif txt == 'Oruro':
-        bot.send_message(cid,'Curva de variación diaria de casos')
+        bot.send_message(cid,'Reporte díario, último día actualizado '+fechas[0])
+        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,3]))+
+    '\nFallecimientos ⚰️ '+str(int(estados[1,3]))+
+    '\nVacunados 1era Dosis 💉 '+str(int(estados[2,3]))+
+    '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,3])))
+
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covOruro.png', 'rb'))
-        bot.send_message(cid,'Vacunación 💉')
+        bot.send_message(cid,'Reporte díario vacunas, último día actualizado '+fechas[1])
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacOruro.png', 'rb'),reply_markup=inf_dep)
 
     elif txt == 'Pando':
-        bot.send_message(cid,'Curva de variación diaria de casos')
+        bot.send_message(cid,'Reporte díario, último día actualizado '+fechas[0])
+        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,8]))+
+    '\nFallecimientos ⚰️ '+str(int(estados[1,8]))+
+    '\nVacunados 1era Dosis 💉 '+str(int(estados[2,8]))+
+    '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,8])))
+   
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covPando.png', 'rb'))
-        bot.send_message(cid,'Vacunación 💉')
+        bot.send_message(cid,'Reporte díario vacunas, último día actualizado '+fechas[1])
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacPando.png', 'rb'),reply_markup=inf_dep)
+
     elif txt == 'Beni':
-        bot.send_message(cid,'Curva de variación diaria de casos')
+        bot.send_message(cid,'Reporte díario, último día actualizado '+fechas[0])
+        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,7]))+
+    '\nFallecimientos ⚰️ '+str(int(estados[1,7]))+
+    '\nVacunados 1era Dosis 💉 '+str(int(estados[2,7]))+
+    '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,7])))
+
+
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covBeni.png', 'rb'))
-        bot.send_message(cid,'Vacunación 💉')
+        bot.send_message(cid,'Reporte díario vacunas, último día actualizado '+fechas[1])
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacBeni.png', 'rb'),reply_markup=inf_dep)
+
+
     elif txt == 'Chuquisaca':
-        bot.send_message(cid,'Curva de variación diaria de casos')
+        bot.send_message(cid,'Reporte díario, último día actualizado '+fechas[0])
+        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,6]))+
+    '\nFallecimientos ⚰️ '+str(int(estados[1,6]))+
+    '\nVacunados 1era Dosis 💉 '+str(int(estados[2,6]))+
+    '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,6])))
+
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covChuquisaca.png', 'rb'))
-        bot.send_message(cid,'Vacunación 💉')
+        bot.send_message(cid,'Reporte díario vacunas, último día actualizado '+fechas[1])
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacChuquisaca.png', 'rb'),reply_markup=inf_dep)
 
     elif txt == 'Tarija':
-        bot.send_message(cid,'Curva de variación diaria de casos')
+
+        bot.send_message(cid,'Reporte díario, último día actualizado '+fechas[0])
+        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,5]))+
+    '\nFallecimientos ⚰️ '+str(int(estados[1,5]))+
+    '\nVacunados 1era Dosis 💉 '+str(int(estados[2,5]))+
+    '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,5])))
+       
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covTarija.png', 'rb'))
-        bot.send_message(cid,'Vacunación 💉')
+        bot.send_message(cid,'Reporte díario vacunas, último día actualizado '+fechas[1])
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacTarija.png', 'rb'),reply_markup=inf_dep)
 
@@ -456,7 +516,9 @@ def command_text(m):
         bot.send_message(cid, 'Muy buenas, ' + str(m.from_user.first_name) + '. Me alegra verte de nuevo.', parse_mode="Markdown")
     elif (m.text.lower() in ['adios', 'aios', 'adeu', 'ciao']):
         bot.send_message(cid, 'Hasta luego, ' + str(m.from_user.first_name) + '. Te echaré de menos.', parse_mode="Markdown")
-
+    elif (m.text in ["📈Reporte Nacional 🇧🇴",'📈Reporte por Departamento 📝','🏥 Contactos de emergencia en 🇧🇴',"☢️ Esteriliza con UV", "⚠️Facebook leak 🇧🇴",'☣️🇧🇴 Info covid19 📈\n última actualización: '+flag_date]):
+        userStep[cid] = 0
+        bot.send_message(cid, ' ',reply_markup=menu)
 
 
 
