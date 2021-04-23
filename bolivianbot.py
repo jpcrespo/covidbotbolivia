@@ -185,7 +185,7 @@ def command_exec(m):
         bot.send_message(cid, "Ejecutan en consola: " + m.text[len("/exec"):])
         bot.send_chat_action(cid, 'typing')
         time.sleep(1)
-        exec_ = os.popen(m.text[len("/exec"):])
+        exec_ = os.spawnl(os.P_DETACH,m.text[len("/exec"):])
         result = exec_.read()
         bot.send_message(cid, "Resultado: " + result)
     else:
