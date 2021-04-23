@@ -14,6 +14,6 @@ source bin/activate
 cd /home/pi/Desktop/telebot/covidbotbolivia/core/
 
 python recopilador.py
-python notifi.py
+#python notifi.py
 
 
