@@ -367,7 +367,8 @@ def infodep_menu(m):
 
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covSanta Cruz.png', 'rb'))
-
+        bot.send_message(cid,'''El 6 de septiembre de 2020 el SEDES Santa Cruz reporta una actualización que incrementa 1570 casos al conteo acumulado de decesos. Según un comunicado del Ministerio de Salud, el incremento es resultado de una revisión retrospectiva de datos y no corresponden al día mencionado.''')
+   
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacSanta Cruz.png', 'rb'),reply_markup=inf_dep)
 
