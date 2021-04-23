@@ -289,6 +289,7 @@ def infomain_menu(m):
     '\nVacunados 2da  Dosis 💉 '+str(int(np.sum(estados[3]))))
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covNac.png', 'rb'))
+        bot.send_message(cid,'Reporte díario vacunas, último día actualizado '+fechas[1])
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacNac.png', 'rb'),reply_markup=info_menu)
 
