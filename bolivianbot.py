@@ -289,6 +289,7 @@ def infomain_menu(m):
     '\nVacunados 2da  Dosis 💉 '+str(int(np.sum(estados[3]))))
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/covNac.png', 'rb'))
+        bot.send_message(cid,'Reporte díario vacunas, último día actualizado '+fechas[1])
         bot.send_chat_action(cid,'upload_photo')
         bot.send_photo(cid, open('core/pics/vacNac.png', 'rb'),reply_markup=info_menu)
 
@@ -516,7 +517,7 @@ def command_text(m):
         bot.send_message(cid, 'Muy buenas, ' + str(m.from_user.first_name) + '. Me alegra verte de nuevo.', parse_mode="Markdown")
     elif (m.text.lower() in ['adios', 'aios', 'adeu', 'ciao']):
         bot.send_message(cid, 'Hasta luego, ' + str(m.from_user.first_name) + '. Te echaré de menos.', parse_mode="Markdown")
-    elif (m.text in ["📈Reporte Nacional 🇧🇴",'📈Reporte por Departamento 📝','🏥 Contactos de emergencia en 🇧🇴',"☢️ Esteriliza con UV", "⚠️Facebook leak 🇧🇴",'☣️🇧🇴 Info covid19 📈\n última actualización: '+flag_date]):
+    elif (m.text in ["🔙Atrás","📈Reporte Nacional 🇧🇴",'📈Reporte por Departamento 📝','🏥 Contactos de emergencia en 🇧🇴',"☢️ Esteriliza con UV", "⚠️Facebook leak 🇧🇴",'☣️🇧🇴 Info covid19 📈\n última actualización: '+flag_date]):
         userStep[cid] = 0
         bot.send_message(cid, ' ',reply_markup=menu)
 
