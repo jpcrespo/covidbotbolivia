@@ -46,9 +46,9 @@ for j in range(9):
 y_v=df1.index.values       #Para los gráficos de las vacunas
 y_c=df3.index.values       #Para los gráficos de los datos covid
     
-#Ahora para que las gráficas de los datos covid se vean bien 
-#sobre los puntos de los datos reportados ira un curva 
-#pero de los promedios por semana. 
+# Ahora para que las gráficas de los datos covid se vean bien 
+# sobre los puntos de los datos reportados ira un curva 
+# pero de los promedios por semana. 
 
 #promedio de 7 dias
 mean_df_c = df3.rolling(7,min_periods=1).mean()
@@ -93,7 +93,7 @@ for i in range(len(tableau20)):
 for i in range(len(departamentos_v)):
     plt.figure(figsize=(20,15))
     
-    plt.title('Vacunaciones en el Departamento: '+departamentos_v[i]+'\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
+    plt.title('Vacunaciones en el Departamento: '+departamentos_v[i]+'\n(último reporte en fuente: '+y_v[-1]+')\n',fontsize=25)
     plt.plot(y_v,data1[i],linewidth=3,color=tableau20[0])
     plt.plot(y_v,data2[i],linewidth=3,color=tableau20[4])
     plt.xticks(y_v[::7],fontsize=15,rotation=45)
@@ -122,7 +122,7 @@ op=int(len(nacional1)/1.12)
 firma = AnnotationBbox(imagebox,(20,nacional1[op]))
 
 plt.figure(figsize=(20,15))
-plt.title('Vacunación a nivel Nacional\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
+plt.title('Vacunación a nivel Nacional\n(último reporte en fuente: '+y_v[-1]+')\n',fontsize=25)
 plt.plot(y_v,nacional1,linewidth=3,color=tableau20[0])
 plt.plot(y_v,nacional2,linewidth=3,color=tableau20[4])
 plt.xticks(y_v[::7],fontsize=15,rotation=45)
@@ -152,7 +152,7 @@ plt.savefig('pics/vacNac.png')
 
 for i in range(len(departamentos_c)):
     plt.figure(figsize=(20,15))
-    plt.title('Nuevos casos/día en el Departamento: '+departamentos_c[i]+'\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
+    plt.title('Nuevos casos/día en el Departamento: '+departamentos_c[i]+'\n(último reporte en fuente: '+y_c[-1]+')\n',fontsize=25)
     plt.plot(y_c,var_c[i],label='Nuevos Casos/día',linewidth=0.5,color=tableau20[0],linestyle='-',marker='.', markersize=5,markeredgecolor='red',markerfacecolor='r')
     plt.plot(y_c,var_mc[i],label='Promedio 7 días',linewidth=5,color=tableau20[1],linestyle='-')
     plt.plot(y_c,var_m[i],label='Fallecimientos/día',linewidth=5,color=tableau20[7],linestyle='-')
@@ -180,7 +180,7 @@ nacional3_=var_mm[0]+var_mm[1]+var_mm[2]+var_mm[3]+var_mm[4]+var_mm[5]+var_mm[6]
 
 
 plt.figure(figsize=(20,15))
-plt.title('Nuevos casos/día a nivel Nacional'+'\n(último reporte en fuente: '+last_date+')\n',fontsize=25)
+plt.title('Nuevos casos/día a nivel Nacional'+'\n(último reporte en fuente: '+y_c[-1]+')\n',fontsize=25)
 plt.plot(y_c,nacional1_,label='Nuevos Casos/día',linewidth=0.5,color=tableau20[0],linestyle='-',marker='.',markersize=5,markeredgecolor='red',markerfacecolor='r')
 plt.plot(y_c,nacional2_,label='Promedio 7 días',linewidth=5,color=tableau20[1],linestyle='-')
 plt.plot(y_c,nacional3_,label='Fallecimientos/día',linewidth=5,color=tableau20[7],linestyle='-')
@@ -228,4 +228,27 @@ with open('datos.py', 'a') as f:
     f.write("act_mss = '")
     f.write(mss1)
     f.write("'")
+
+
+#se guarda un array actualizado con los datos: 
+# casos_dia      data3
+# muertos_día    data4
+# vacunados_1    var_v1
+# vacunados_2    var_v2
+
+
+muertos_dia=np.zeros(9)
+casos_dia=np.zeros(9)
+for j in range(9):
+    muertos_dia[j]=data4[j,-1]-data4[j,-2]
+    casos_dia[j]=data3[j,-1]-data3[j,-2]
+
+
+estados =  [[casos_dia[0],casos_dia[1],casos_dia[2],casos_dia[3],casos_dia[4],casos_dia[5],casos_dia[6],casos_dia[7],casos_dia[8]],
+            [muertos_dia[0],muertos_dia[1],muertos_dia[2],muertos_dia[3],muertos_dia[4],muertos_dia[5],muertos_dia[6],muertos_dia[7],muertos_dia[8]],
+            [var_v1[3],var_v1[2],var_v1[7],var_v1[4],var_v1[6],var_v1[8],var_v1[1],var_v1[0],var_v1[5]],
+            [var_v2[3],var_v2[2],var_v2[7],var_v2[4],var_v2[6],var_v2[8],var_v2[1],var_v2[0],var_v2[5]]]
+  
+np.save('estados.npy',estados)
+
 
