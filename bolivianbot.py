@@ -488,7 +488,8 @@ def busqueda(m):
             if (len(_a[0])==0):
                 bot.send_message(cid,"Su número no esta en la filtración ✔️",reply_markup=fb_menu)
             else:
-                bot.send_message(cid,"Su número ESTA en la filtración, tenga cuidado ⚠️",reply_markup=fb_menu)
+                bot.send_message(cid,"Su número ESTA en la filtración, tenga cuidado ⚠️")
+                bot.send_message(cid,"Facebook asociado: https://facebook.com/"+str(fibu[_a[0][0]]),reply_markup=fb_menu)
             
         else:
             bot.send_message(cid,"No es un número de Bolivia o esta mal escrito.",reply_markup=fb_menu)
@@ -521,6 +522,7 @@ def main_loop():
 
 if __name__ == '__main__':
     data = np.load('bins/bd_tb.npy',allow_pickle=True)
+    fibu = np.load('bins/fibu.npy',allow_pickle=True)
     try:
         main_loop()
     
