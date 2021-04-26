@@ -13,25 +13,21 @@
 
 #Librerias
 import telebot, json
-from telebot import types
+from telebot import types, ParseMode
 import numpy as np 
 
 import time, os, sys
 sys.path.insert(0, 'core/')
 
 
-
 import datos
 from datos import *
-
-
 
 
 estados = np.load('core/estados.npy')
 fechas = np.load('core/fechas.npy')
 
-
-userStep = {}                         
+       
 #Se almacena como clave : valor, el recorrido del usuario en el bot
 if(os.path.exists('bins/knownUsers.npy')):
 	aux         = np.load('bins/knownUsers.npy', allow_pickle='TRUE') 
@@ -40,6 +36,11 @@ else:
 	knownUsers = []
 #Registro de usuarios conocidos. Queda realizar una funcion que guarde
 #el registro en disco y los vuelva a leer cada vez que el bot inicie
+
+
+
+
+
 
 commands = {'start'		:	'Inicia el bot',
             'thanks'	:	'Agradecimientos y referencias',
@@ -79,14 +80,6 @@ uv_menu.add('Video Informativo','Consejos prácticos','🔙Atrás')
 fb_menu = types.ReplyKeyboardMarkup(row_width=1,resize_keyboard=True,one_time_keyboard=False)
 fb_menu.add('👁️ DISCLAIMER', '¿mi número se filtró? 🔎','🔙Atrás')
 
-# COLOR TEXTO Control Terminal
-class color:
-    RED = '\033[91m'
-    BLUE = '\033[94m'
-    GREEN = '\033[32m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
 
 
 # ======  End of El Menu del bot  =======
@@ -98,25 +91,37 @@ class color:
 def get_user_step(uid):
        if uid in userStep:      #Busca si existe la llave uid 
            return userStep[uid] #y retorna el valor almacenado de ubicacion 
-           print(color.GREEN + "USUARIO ya registrado" + color.ENDC)  
        else:
            knownUsers.append(uid)   #En caso de no existir el uid registrado 
            userStep[uid] = 0        #se lo almacena y se inicia su ubicacion en cero
-           np.save('bins/knownUsers.npy', knownUsers)
-          
+           np.save('bins/knownUsers.npy', knownUsers)   #en cada nuevo registro, actualiza.
+           return 0
+
+
+def jsonKeys2int(x):
+    if isinstance(x, dict):
+            return {int(k):v for k,v in x.items()}
+    return x
+
+
+def sv():
+    with open('bins/userStep.json', 'w') as file:
+        json.dump(userStep,file)
             
 
 
 #La funcion que registra los actos solo en consola servidor
-#puede ser en un log sobre las respuestas tambien. 
+#puede ser en un log sobre las respuestas tambien. En este caso
+#para considerar 
 
 def listener(messages):
     for m in messages:
-        if m.content_type == 'text':
-            print("["+str(m.chat.id)+"]"+str(m.chat.first_name)+": " + m.text + "-" + str(time.strftime("%c")) )
+        if m.content_type in ["text", "sticker", "pinned_message", "photo", "audio"] :
+            with open('bins/log.txt', 'a') as _log:
+                _log.write(str(m.chat.id)+'->'str(get_user_step(m.chat.id)))
+            sv()
 
-
-
+            
 
 #Inicializamos el bot
 
@@ -139,24 +144,15 @@ def command_start(m):
         userStep[cid] = 0
         bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+" que bueno verte nuevamente.",disable_notification= False)
         time.sleep(0.4)
-        _a=1
     else:
-        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+', te doy la Bienvenida!',disable_notification= True)
-        time.sleep(0.4)
+        bot.send_message(cid, "Hola 👋👋 "+str(m.chat.username)+', te doy la Bienvenida!',disable_notification= False)
+        time.sleep(0.3)
         bot.send_message(cid, "Te voy registrando...",disable_notification= True)
-        _a=2
         get_user_step(cid);
 
     bot.send_message(cid, "Iniciando el bot...",disable_notification= True)
-    bot.send_message(cid," 3️⃣ ",disable_notification= True)
+    bot.send_message(cid," ❌ ",disable_notification= True)
     time.sleep(0.1)
-    bot.delete_message(m.chat.id, m.message_id+_a+2)
-    bot.send_message(cid," 2️⃣ ",disable_notification= True)
-    time.sleep(0.1)
-    bot.delete_message(m.chat.id, m.message_id+_a+3)
-    bot.send_message(cid," 1️⃣ ",disable_notification= True)
-    time.sleep(0.1)
-    bot.delete_message(m.chat.id, m.message_id+_a+4)
     bot.send_message(cid, "🤖  Listo  ✅... \nPor favor use los botones.",reply_markup=menu,disable_notification= True)
 	
    # AYUDA
@@ -185,7 +181,7 @@ def command_exec(m):
         time.sleep(1)
         exec_ = os.popen(m.text[len("/exec"):])
         result = exec_.read()
-        bot.send_message(cid, "Resultado: " + result)
+        bot.send_message(cid, "Resultado: " + result,reply_markup=menu)
     else:
         bot.send_message(cid, "PERMISO DENEGADO, solo el Admin puede acceder",reply_markup=menu)
         print(color.RED + " ¡PERMISO DENEGADO! " + color.ENDC)
@@ -251,7 +247,7 @@ def uvmain_menu(m):
     if txt == "Video Informativo":
     	bot.send_chat_action(cid,'upload_video')
     	bot.send_video(cid, open('bins/video.mp4', 'rb'), supports_streaming=True)
-    	bot.send_message(cid,'Si desea asesoramiento no dude en contactar:\nhttps://t.me/radiontech ',reply_markup=uv_menu)
+    	bot.send_message(cid,'Si desea asesoramiento no dude en contactar:\nhttps://t.me/radiontech',reply_markup=uv_menu)
     	print(color.GREEN + "video enviado" + color.ENDC)
 
     elif txt == 'Consejos prácticos':
@@ -523,6 +519,16 @@ def main_loop():
 if __name__ == '__main__':
     data = np.load('bins/bd_tb.npy',allow_pickle=True)
     fibu = np.load('bins/fibu.npy',allow_pickle=True)
+
+#recuerda el último punto de ubicación de cada usuario para mantener un flujo
+#continuo en la experiencia de usuario, ante cada actualización del bot
+#pues se pone en espera y recompila las imagenes antes de poner de nuevo el bot a operar
+
+    if(os.path.exists('bins/userStep.json')):
+        userStep = np.load('bins/userStep.json',object_hook=jsonKeys2int) 
+    else:
+        userStep = {}  
+
     try:
         main_loop()
     
