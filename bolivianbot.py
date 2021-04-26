@@ -78,7 +78,7 @@ uv_menu = types.ReplyKeyboardMarkup(row_width=2,resize_keyboard=True,one_time_ke
 uv_menu.add('Video Informativo','Consejos prácticos','🔙Atrás')
 
 fb_menu = types.ReplyKeyboardMarkup(row_width=1,resize_keyboard=True,one_time_keyboard=False)
-fb_menu.add('👁️ DISCLAIMER', '¿mi número se filtró? 🔎','🔙Atrás')
+fb_menu.add('👁️', '¿mi número se filtró? 🔎','🔙Atrás')
 
 
 
@@ -455,7 +455,7 @@ def infodep_menu(m):
 def fbmain_menu(m):
     cid = m.chat.id
     txt = m.text
-    if txt == '👁️ DISCLAIMER':
+    if txt == '👁️':
         bot.send_chat_action(cid,'typing')
         bot.send_message(cid,"En el filtrado de datos de Facebook del 2021 se expusieron casi 3 millones de cuentas Bolivianas, puede buscar si su número se encuentra vulnerable.")
         bot.send_message(cid,'Puede asociar su número con la siguiente información:')
@@ -500,13 +500,17 @@ def busqueda(m):
 def command_text(m):
     cid = m.chat.id
     if (m.text.lower() in ['hola', 'hi', 'buenas', 'buenos dias']):
+        userStep[cid] = 0
         bot.send_message(cid, 'Muy buenas, ' + str(m.from_user.first_name) + '. Me alegra verte de nuevo.', reply_markup=menu)
     elif (m.text.lower() in ['adios', 'aios', 'adeu', 'ciao','chau','bye']):
-        bot.send_message(cid, 'Hasta luego, ' + str(m.from_user.first_name) + '. Te echaré de menos.', parse_mode="Markdown")
-    elif (m.text in ['La Paz','Cochabamba','Santa Cruz','Potosí','Oruro','Pando','Beni','Chuquisaca','Tarija',"🔙Atrás","📈Reporte Nacional 🇧🇴",'📈Reporte por Departamento 📝','🏥 Contactos de emergencia en 🇧🇴',"☢️ Esteriliza con UV", "⚠️Facebook leak 🇧🇴",'☣️🇧🇴 Info covid19 📈\n última actualización: '+flag_date,'Video Informativo','Consejos prácticos','🔙Atrás''👁️ DISCLAIMER', '¿mi número se filtró? 🔎','🔙Atrás''👁️ DISCLAIMER', '¿mi número se filtró? 🔎','🔙Atrás''👁️ DISCLAIMER', '¿mi número se filtró? 🔎','🔙Atrás''👁️ DISCLAIMER', '¿mi número se filtró? 🔎']):
+        userStep[cid] = 0
+        bot.send_message(cid, 'Hasta luego, ' + str(m.from_user.first_name) + '. Te echaré de menos.', reply_markup=menu)
+    elif (m.text in ['La Paz','Cochabamba','Santa Cruz','Potosí','Oruro','Pando','Beni','Chuquisaca','Tarija',"🔙Atrás","📈Reporte Nacional 🇧🇴",'📈Reporte por Departamento 📝','🏥 Contactos de emergencia en 🇧🇴',"☢️ Esteriliza con UV", "⚠️Facebook leak 🇧🇴",'☣️🇧🇴 Info covid19 📈\n última actualización: '+flag_date,'Video Informativo','Consejos prácticos', '¿mi número se filtró? 🔎']):
         userStep[cid] = 0
         bot.send_message(cid, ' ',reply_markup=menu)
-
+    elif:
+        userStep[cid] = 0
+        bot.send_message(cid,'🤔',reply_markup=menu)
 
 
 
