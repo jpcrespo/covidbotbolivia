@@ -508,8 +508,9 @@ def command_text(m):
     elif (m.text in ['La Paz','Cochabamba','Santa Cruz','Potosí','Oruro','Pando','Beni','Chuquisaca','Tarija',"🔙Atrás","📈Reporte Nacional 🇧🇴",'📈Reporte por Departamento 📝','🏥 Contactos de emergencia en 🇧🇴',"☢️ Esteriliza con UV", "⚠️Facebook leak 🇧🇴",'☣️🇧🇴 Info covid19 📈\n última actualización: '+flag_date,'Video Informativo','Consejos prácticos', '¿mi número se filtró? 🔎']):
         userStep[cid] = 0
         bot.send_message(cid, ' ',reply_markup=menu)
-    userStep[cid] = 0
-    bot.send_message(cid,'🤔',reply_markup=menu)
+    elif (m.content_type in ["text", "sticker", "pinned_message", "photo", "audio"]):
+        userStep[cid] = 0
+        bot.send_message(cid,'🤔',reply_markup=menu)
 
 
 
