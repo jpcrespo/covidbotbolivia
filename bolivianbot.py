@@ -118,7 +118,7 @@ def listener(messages):
     for m in messages:
         if m.content_type in ["text", "sticker", "pinned_message", "photo", "audio"] :
             with open('bins/log.txt', 'a') as _log:
-                _log.write(str(m.chat.id)+'->'+str(m.chat.username)+'\n')
+                _log.write(str(m.chat.id)+'->'+str(m.chat.username)+':'+str(get_user_step(m.chat.id))+'\n')
             sv()
 
             
