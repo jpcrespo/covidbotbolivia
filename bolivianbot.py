@@ -13,7 +13,7 @@
 
 #Librerias
 import telebot, json
-from telebot import types, ParseMode
+from telebot import types
 import numpy as np 
 
 import time, os, sys
@@ -24,8 +24,8 @@ import datos
 from datos import *
 
 
-estados = np.load('core/estados.npy')
-fechas = np.load('core/fechas.npy')
+estados = np.load('core/estados.npy',allow_pickle='TRUE')
+fechas = np.load('core/fechas.npy',allow_pickle='TRUE')
 
        
 #Se almacena como clave : valor, el recorrido del usuario en el bot
@@ -95,7 +95,7 @@ def get_user_step(uid):
            knownUsers.append(uid)   #En caso de no existir el uid registrado 
            userStep[uid] = 0        #se lo almacena y se inicia su ubicacion en cero
            np.save('bins/knownUsers.npy', knownUsers)   #en cada nuevo registro, actualiza.
-           return 0
+           return  userStep[uid]
 
 
 def jsonKeys2int(x):
@@ -118,7 +118,7 @@ def listener(messages):
     for m in messages:
         if m.content_type in ["text", "sticker", "pinned_message", "photo", "audio"] :
             with open('bins/log.txt', 'a') as _log:
-                _log.write(str(m.chat.id)+'->'str(get_user_step(m.chat.id)))
+                _log.write(str(m.chat.id)+'->'+str(m.chat.username)+'\n')
             sv()
 
             
@@ -151,7 +151,6 @@ def command_start(m):
         get_user_step(cid);
 
     bot.send_message(cid, "Iniciando el bot...",disable_notification= True)
-    bot.send_message(cid," ❌ ",disable_notification= True)
     time.sleep(0.1)
     bot.send_message(cid, "🤖  Listo  ✅... \nPor favor use los botones.",reply_markup=menu,disable_notification= True)
 	
@@ -525,7 +524,8 @@ if __name__ == '__main__':
 #pues se pone en espera y recompila las imagenes antes de poner de nuevo el bot a operar
 
     if(os.path.exists('bins/userStep.json')):
-        userStep = np.load('bins/userStep.json',object_hook=jsonKeys2int) 
+        with open('bins/userStep.json','r') as filex:
+            userStep=json.load(filex,object_hook=jsonKeys2int) 
     else:
         userStep = {}  
 
