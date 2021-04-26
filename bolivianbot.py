@@ -24,8 +24,8 @@ import datos
 from datos import *
 
 
-estados = np.load('core/estados.npy')
-fechas = np.load('core/fechas.npy')
+estados = np.load('core/estados.npy',allow_pickle='TRUE')
+fechas = np.load('core/fechas.npy',allow_pickle='TRUE')
 
        
 #Se almacena como clave : valor, el recorrido del usuario en el bot
@@ -95,7 +95,7 @@ def get_user_step(uid):
            knownUsers.append(uid)   #En caso de no existir el uid registrado 
            userStep[uid] = 0        #se lo almacena y se inicia su ubicacion en cero
            np.save('bins/knownUsers.npy', knownUsers)   #en cada nuevo registro, actualiza.
-           return 0
+           return  userStep[uid]
 
 
 def jsonKeys2int(x):
