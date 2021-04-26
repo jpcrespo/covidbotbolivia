@@ -499,7 +499,17 @@ def busqueda(m):
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def command_text(m):
     cid = m.chat.id
-    if (m.text.lower() in ['hola', 'hi', 'buenas', 'buenos dias']):
+    if (cid == master):
+        if (m.text == 'logs'):
+            with open('bins/log.txt','rb') as lgs:
+                userStep[cid] = 0
+                bot.sendDocument(cid,lgs,reply_markup=main)
+        else (m.text == 'send_ip'):
+                os.popen('ifconfig > ip.txt');
+                with open('ip.txt','rb') as ips:
+                userStep[cid] = 0
+                bot.sendDocument(cid,ips,reply_markup=main)
+    elif(m.text.lower() in ['hola', 'hi', 'buenas', 'buenos dias']):
         userStep[cid] = 0
         bot.send_message(cid, 'Muy buenas, ' + str(m.from_user.first_name) + '. Me alegra verte de nuevo.', reply_markup=menu)
     elif (m.text.lower() in ['adios', 'aios', 'adeu', 'ciao','chau','bye']):
