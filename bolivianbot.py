@@ -247,13 +247,13 @@ def uvmain_menu(m):
     	bot.send_chat_action(cid,'upload_video')
     	bot.send_video(cid, open('bins/video.mp4', 'rb'), supports_streaming=True)
     	bot.send_message(cid,'Si desea asesoramiento no dude en contactar:\nhttps://t.me/radiontech',reply_markup=uv_menu)
-    	print(color.GREEN + "video enviado" + color.ENDC)
+    
 
     elif txt == 'Consejos prácticos':
     	bot.send_chat_action(cid,'typing')
     	time.sleep(1)
     	bot.send_message(cid,datos.getMessage(),reply_markup=uv_menu)
-    	print(color.GREEN + "consejo enviado" + color.ENDC)
+
 
     elif txt == "🔙Atrás":  # HD
         userStep[cid] = 0
@@ -272,7 +272,7 @@ def infomain_menu(m):
     if txt == "📈Reporte Nacional 🇧🇴":
         bot.send_message(cid,'Reporte Nacional díario, última fecha de actualización en la fuente: '+fechas[0])
         bot.send_message(cid,'Reporte díario vacunación, último día actualizado en la fuente: '+fechas[1])
-        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(np.sum(estados[0])))+
+        bot.send_message(cid, 'Nuevos casos 🤒 '+str(int(np.sum(estados[0])))+
     '\nFallecimientos ⚰️ '+str(int(np.sum(estados[1])))+
     '\nVacunados 1era Dosis 💉 '+str(int(np.sum(estados[2])))+
     '\nVacunados 2da  Dosis 💉 '+str(int(np.sum(estados[3]))))
@@ -327,7 +327,7 @@ def infodep_menu(m):
     if txt == "La Paz":
     	  bot.send_message(cid,'Reporte Nacional díario, última fecha de actualización en la fuente: '+fechas[0])
     	  bot.send_message(cid,'Reporte díario vacunación, último día actualizado en la fuente: '+fechas[1])
-    	  bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,0]))+
+    	  bot.send_message(cid, 'Nuevos casos 🤒 '+str(int(estados[0,0]))+
     '\nFallecimientos ⚰️ '+str(int(estados[1,0]))+
     '\nVacunados 1era Dosis 💉 '+str(int(estados[2,0]))+
     '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,0])))
@@ -340,7 +340,7 @@ def infodep_menu(m):
         bot.send_message(cid,'Reporte Nacional díario, última fecha de actualización en la fuente: '+fechas[0])
         bot.send_message(cid,'Reporte díario vacunación, último día actualizado en la fuente: '+fechas[1])
 
-        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,1]))+
+        bot.send_message(cid, 'Nuevos casos 🤒 '+str(int(estados[0,1]))+
     '\nFallecimientos ⚰️ '+str(int(estados[1,1]))+
     '\nVacunados 1era Dosis 💉 '+str(int(estados[2,1]))+
     '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,1])))
@@ -355,7 +355,7 @@ def infodep_menu(m):
         bot.send_message(cid,'Reporte Nacional díario, última fecha de actualización en la fuente: '+fechas[0])
         bot.send_message(cid,'Reporte díario vacunación, último día actualizado en la fuente: '+fechas[1])
 
-        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,2]))+
+        bot.send_message(cid, 'Nuevos casos 🤒 '+str(int(estados[0,2]))+
     '\nFallecimientos ⚰️ '+str(int(estados[1,2]))+
     '\nVacunados 1era Dosis 💉 '+str(int(estados[2,2]))+
     '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,2])))
@@ -370,7 +370,7 @@ def infodep_menu(m):
     elif txt == 'Potosí':
     	  bot.send_message(cid,'Reporte Nacional díario, última fecha de actualización en la fuente: '+fechas[0])
     	  bot.send_message(cid,'Reporte díario vacunación, último día actualizado en la fuente: '+fechas[1])
-    	  bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,4]))+
+    	  bot.send_message(cid, 'Nuevos casos 🤒 '+str(int(estados[0,4]))+
     '\nFallecimientos ⚰️ '+str(int(estados[1,4]))+
     '\nVacunados 1era Dosis 💉 '+str(int(estados[2,4]))+
     '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,4])))
@@ -382,7 +382,7 @@ def infodep_menu(m):
     elif txt == 'Oruro':
     	  bot.send_message(cid,'Reporte Nacional díario, última fecha de actualización en la fuente: '+fechas[0])
     	  bot.send_message(cid,'Reporte díario vacunación, último día actualizado en la fuente: '+fechas[1])
-    	  bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,3]))+
+    	  bot.send_message(cid, 'Nuevos casos 🤒 '+str(int(estados[0,3]))+
     '\nFallecimientos ⚰️ '+str(int(estados[1,3]))+
     '\nVacunados 1era Dosis 💉 '+str(int(estados[2,3]))+
     '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,3])))
@@ -394,7 +394,7 @@ def infodep_menu(m):
     elif txt == 'Pando':
     	  bot.send_message(cid,'Reporte Nacional díario, última fecha de actualización en la fuente: '+fechas[0])
     	  bot.send_message(cid,'Reporte díario vacunación, último día actualizado en la fuente: '+fechas[1])
-    	  bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,8]))+
+    	  bot.send_message(cid, 'Nuevos casos 🤒 '+str(int(estados[0,8]))+
     '\nFallecimientos ⚰️ '+str(int(estados[1,8]))+
     '\nVacunados 1era Dosis 💉 '+str(int(estados[2,8]))+
     '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,8])))
@@ -406,7 +406,7 @@ def infodep_menu(m):
     elif txt == 'Beni':
     	  bot.send_message(cid,'Reporte Nacional díario, última fecha de actualización en la fuente: '+fechas[0])
     	  bot.send_message(cid,'Reporte díario vacunación, último día actualizado en la fuente: '+fechas[1])
-    	  bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,7]))+
+    	  bot.send_message(cid, 'Nuevos casos 🤒 '+str(int(estados[0,7]))+
     '\nFallecimientos ⚰️ '+str(int(estados[1,7]))+
     '\nVacunados 1era Dosis 💉 '+str(int(estados[2,7]))+
     '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,7])))
@@ -419,7 +419,7 @@ def infodep_menu(m):
     elif txt == 'Chuquisaca':
     	  bot.send_message(cid,'Reporte Nacional díario, última fecha de actualización en la fuente: '+fechas[0])
     	  bot.send_message(cid,'Reporte díario vacunación, último día actualizado en la fuente: '+fechas[1])
-    	  bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,6]))+
+    	  bot.send_message(cid, 'Nuevos casos 🤒 '+str(int(estados[0,6]))+
     '\nFallecimientos ⚰️ '+str(int(estados[1,6]))+
     '\nVacunados 1era Dosis 💉 '+str(int(estados[2,6]))+
     '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,6])))
@@ -432,7 +432,7 @@ def infodep_menu(m):
         bot.send_message(cid,'Reporte Nacional díario, última fecha de actualización en la fuente: '+fechas[0])
         bot.send_message(cid,'Reporte díario vacunación, último día actualizado en la fuente: '+fechas[1])
 
-        bot.send_message(master, 'Nuevos casos 🤒 '+str(int(estados[0,5]))+
+        bot.send_message(cid, 'Nuevos casos 🤒 '+str(int(estados[0,5]))+
     '\nFallecimientos ⚰️ '+str(int(estados[1,5]))+
     '\nVacunados 1era Dosis 💉 '+str(int(estados[2,5]))+
     '\nVacunados 2da  Dosis 💉 '+str(int(estados[3,5])))
