@@ -180,24 +180,18 @@ nacional3_=var_mm[0]+var_mm[1]+var_mm[2]+var_mm[3]+var_mm[4]+var_mm[5]+var_mm[6]
 
 plt.figure(figsize=(20,15))
 plt.title('Nuevos casos/día a nivel Nacional'+'\n(último reporte en fuente: '+y_c[-1]+')\n',fontsize=35)
-plt.plot(y_c[:-2],nacional1_[:-2],label='Nuevos Casos/día',linewidth=0.5,color=tableau20[0],linestyle='-',marker='.',markersize=5,markeredgecolor='red',markerfacecolor='r')
+plt.plot(y_c,nacional1_,label='Nuevos Casos/día',linewidth=0.5,color=tableau20[0],linestyle='-',marker='.',markersize=5,markeredgecolor='red',markerfacecolor='r')
 plt.plot(y_c,nacional2_,label='Promedio 7 días',linewidth=5,color=tableau20[1],linestyle='-')
 plt.plot(y_c,nacional3_,label='Fallecimientos/día',linewidth=5,color=tableau20[7],linestyle='-')
-
-
 
 bol1 = mpimg.imread('bol.jpg')
 imagebox1 = OffsetImage(bol1,zoom=1)
 
 firma1 = AnnotationBbox(imagebox1,(60,np.max(nacional1_)/1.2))
-
-
-
-
 plt.legend(loc='upper right',fontsize=20)
 plt.yticks(fontsize=20)
 plt.xticks(y_c[::31],fontsize=15,rotation=45)
-plt.ylim(0,np.max(nacional1_))  
+#plt.ylim(0,np.max(nacional1_))  
 plt.ylabel('Casos/día',fontsize=20)
 #plt.gca().yaxis.grid(linestyle='--',linewidth=0.5,dashes=(5,15))
 plt.gca().spines["top"].set_visible(False)    
