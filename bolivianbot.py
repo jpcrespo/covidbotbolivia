@@ -498,29 +498,30 @@ def busqueda(m):
 # FILTRAR MENSAJES
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def command_text(m):
-    cid = m.chat.id
-    if (cid == master):
-        if (m.text == 'logs'):
-            with open('bins/log.txt','rb') as lgs:
-                userStep[cid] = 0
-                bot.sendDocument(cid,lgs,reply_markup=main)
-        else (m.text == 'send_ip'):
-                os.popen('ifconfig > ip.txt');
-                with open('ip.txt','rb') as ips:
-                userStep[cid] = 0
-                bot.sendDocument(cid,ips,reply_markup=main)
-    elif(m.text.lower() in ['hola', 'hi', 'buenas', 'buenos dias']):
-        userStep[cid] = 0
-        bot.send_message(cid, 'Muy buenas, ' + str(m.from_user.first_name) + '. Me alegra verte de nuevo.', reply_markup=menu)
-    elif (m.text.lower() in ['adios', 'aios', 'adeu', 'ciao','chau','bye']):
-        userStep[cid] = 0
-        bot.send_message(cid, 'Hasta luego, ' + str(m.from_user.first_name) + '. Te echaré de menos.', reply_markup=menu)
-    elif (m.text in ['La Paz','Cochabamba','Santa Cruz','Potosí','Oruro','Pando','Beni','Chuquisaca','Tarija',"🔙Atrás","📈Reporte Nacional 🇧🇴",'📈Reporte por Departamento 📝','🏥 Contactos de emergencia en 🇧🇴',"☢️ Esteriliza con UV", "⚠️Facebook leak 🇧🇴",'☣️🇧🇴 Info covid19 📈\n última actualización: '+flag_date,'Video Informativo','Consejos prácticos', '¿mi número se filtró? 🔎']):
-        userStep[cid] = 0
-        bot.send_message(cid, ' ',reply_markup=menu)
-    elif (m.content_type in ["text", "sticker", "pinned_message", "photo", "audio"]):
-        userStep[cid] = 0
-        bot.send_message(cid,'🤔',reply_markup=menu)
+	cid = m.chat.id
+	if(cid == master or cid == 1164696885):
+		userStep[cid]=0
+		if(m.text == 'log'):
+			with open('bins/log.txt','rb') as lgs:
+				userStep[cid]=0
+				bot.send_document(master,lgs,reply_markup=menu)
+		elif (m.text == 'send_ip'):
+			os.popen('ifconfig > ip.txt')
+			time.sleep(2)
+			with open('ip.txt','rb') as ips:
+				bot.send_document(master,ips,reply_markup=menu)
+	elif(m.text.lower() in ['hola', 'hi', 'buenas', 'buenos dias']):
+		userStep[cid] = 0
+		bot.send_message(cid, 'Muy buenas, ' + str(m.from_user.first_name) + '. Me alegra verte de nuevo.', reply_markup=menu)
+	elif (m.text.lower() in ['adios', 'aios', 'adeu', 'ciao','chau','bye']):
+		UserStep[cid] = 0
+		bot.send_message(cid, 'Hasta luego, ' + str(m.from_user.first_name) + '. Te echaré de menos.', reply_markup=menu)
+	elif (m.text in ['La Paz','Cochabamba','Santa Cruz','Potosí','Oruro','Pando','Beni','Chuquisaca','Tarija',"🔙Atrás","📈Reporte Nacional 🇧🇴",'📈Reporte por Departamento 📝','🏥 Contactos de emergencia en 🇧🇴',"☢️ Esteriliza con UV", "⚠️Facebook leak 🇧🇴",'☣️🇧🇴 Info covid19 📈\n última actualización: '+flag_date,'Video Informativo','Consejos prácticos', '¿mi número se filtró? 🔎']):
+		userStep[cid] = 0
+		bot.send_message(cid, ' ',reply_markup=menu)
+	elif (m.content_type in ["text", "sticker", "pinned_message", "photo", "audio"]):
+		userStep[cid] = 0
+		bot.send_message(cid,'🤔',reply_markup=menu)
 
 
 
